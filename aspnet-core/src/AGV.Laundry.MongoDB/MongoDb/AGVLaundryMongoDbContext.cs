@@ -12,6 +12,7 @@ namespace AGV.Laundry.MongoDB
          */
         public IMongoCollection<AGV.Laundry.Tags.Tag> Tags => Collection<AGV.Laundry.Tags.Tag>();
         public IMongoCollection<AGV.Laundry.BaseStations.BaseStation> BaseStations => Collection<AGV.Laundry.BaseStations.BaseStation>();
+        public IMongoCollection<AGV.Laundry.TagRssis.TagRssi> TagRssis => Collection<AGV.Laundry.TagRssis.TagRssi>();
         protected override void CreateModel(IMongoModelBuilder modelBuilder)
         {
             base.CreateModel(modelBuilder);
