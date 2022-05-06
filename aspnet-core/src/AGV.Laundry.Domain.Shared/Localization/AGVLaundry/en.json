@@ -6,10 +6,15 @@
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Menu:AGVLaundry": "Location Engine",
     "Menu:Tags": "Tags",
+    "Menu:BaseStations": "Base Stations",
     "SystemName": "System Name",
     "DisplayName": "Display Name",
     "TagId": "Tag Mac",
     "Status": "Status",
-    "CartNo":  "Cart No"
+    "CartNo": "Cart No",
+    "BSIP": "Basestation IP",
+    "Hotel": "Hotel",
+    "LotNo": "Lot No."
+
   }
 }

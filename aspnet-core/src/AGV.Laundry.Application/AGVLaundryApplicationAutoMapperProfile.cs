@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AGV.Laundry.Tags;
+using AGV.Laundry.BaseStations;
 
 namespace AGV.Laundry
 {
@@ -12,6 +13,9 @@ namespace AGV.Laundry
              * into multiple profile classes for a better organization. */
             CreateMap<Tag, TagDto>();
             CreateMap<CreateUpdateTagDto, Tag>();
+
+            CreateMap<BaseStation, BaseStationDto>();
+            CreateMap<CreateUpdateBaseStationDto, BaseStation>();
         }
     }
 }

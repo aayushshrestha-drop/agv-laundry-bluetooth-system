@@ -1,5 +1,4 @@
-﻿using AGV.Laundry.Tags;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Volo.Abp.Data;
 using Volo.Abp.MongoDB;
 
@@ -12,6 +11,7 @@ namespace AGV.Laundry.MongoDB
          * public IMongoCollection<Question> Questions => Collection<Question>();
          */
         public IMongoCollection<AGV.Laundry.Tags.Tag> Tags => Collection<AGV.Laundry.Tags.Tag>();
+        public IMongoCollection<AGV.Laundry.BaseStations.BaseStation> BaseStations => Collection<AGV.Laundry.BaseStations.BaseStation>();
         protected override void CreateModel(IMongoModelBuilder modelBuilder)
         {
             base.CreateModel(modelBuilder);

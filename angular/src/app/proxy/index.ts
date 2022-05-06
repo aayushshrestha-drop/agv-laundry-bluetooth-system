@@ -1,2 +1,3 @@
+import * as BaseStations from './base-stations';
 import * as Tags from './tags';
-export { Tags };
+export { BaseStations, Tags };

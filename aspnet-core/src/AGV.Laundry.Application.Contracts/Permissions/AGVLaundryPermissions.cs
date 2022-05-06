@@ -21,37 +21,5 @@
             public const string Edit = Default + ".Edit";
             public const string Delete = Default + ".Delete";
         }
-        public static class TagBatteries
-        {
-            public const string Default = GroupName + ".TagBatteries";
-            public const string Create = Default + ".Create";
-            public const string Edit = Default + ".Edit";
-            public const string Delete = Default + ".Delete";
-        }
-        public static class TagRssis
-        {
-            public const string Default = GroupName + ".TagRssis";
-            public const string Create = Default + ".Create";
-            public const string Edit = Default + ".Edit";
-            public const string Delete = Default + ".Delete";
-        }
-        public static class Trackers
-        {
-            public const string Default = GroupName + ".Trackers";
-        }
-        public static class Configurations
-        {
-            public const string Default = GroupName + ".Configurations";
-            public const string Create = Default + ".Create";
-            public const string Edit = Default + ".Edit";
-            public const string Delete = Default + ".Delete";
-        }
-        public static class TagLocations
-        {
-            public const string Default = GroupName + ".TagLocations";
-            public const string Create = Default + ".Create";
-            public const string Edit = Default + ".Edit";
-            public const string Delete = Default + ".Delete";
-        }
     }
 }
