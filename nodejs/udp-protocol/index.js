@@ -7,7 +7,7 @@ const rabbitmq = require("./rabbitmq");
 const config = require("./config");
 
 setTimeout(() => {
-    //rabbitmq.connect();
+    rabbitmq.connect();
     server.on('listening', function () {
         const address = server.address();
         console.log('UDP Server listening on ' + address.address + ":" + address.port);
@@ -18,7 +18,7 @@ setTimeout(() => {
             if (parsed.tagAddress.startsWith('2034')) {
                 const msg = `${message.toString('hex').length} \n`;
                 console.log(`${parsed.address} ---> ${parsed.tagAddress} | ${parsed.rssi} | ${parsed.batt}`)
-                //rabbitmq.sendMessage(JSON.stringify(parsed));
+                rabbitmq.sendMessage(JSON.stringify(parsed));
             }
         }
         catch (ex) {
