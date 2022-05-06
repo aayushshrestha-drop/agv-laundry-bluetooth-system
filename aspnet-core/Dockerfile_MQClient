@@ -8,24 +8,24 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 #COPY ["nuget.config", "."]
-COPY ["src/Drop.LocationEngine.MqClient/Drop.LocationEngine.MqClient.csproj", "src/Drop.LocationEngine.MqClient/"]
-COPY ["src/Drop.LocationEngine.HttpApi.Host/Drop.LocationEngine.HttpApi.Host.csproj", "src/Drop.LocationEngine.HttpApi.Host/"]
-COPY ["src/Drop.LocationEngine.Application/Drop.LocationEngine.Application.csproj", "src/Drop.LocationEngine.Application/"]
-COPY ["src/Drop.LocationEngine.Application.Contracts/Drop.LocationEngine.Application.Contracts.csproj", "src/Drop.LocationEngine.Application.Contracts/"]
-COPY ["src/Drop.LocationEngine.Domain.Shared/Drop.LocationEngine.Domain.Shared.csproj", "src/Drop.LocationEngine.Domain.Shared/"]
-COPY ["src/Drop.LocationEngine.Domain/Drop.LocationEngine.Domain.csproj", "src/Drop.LocationEngine.Domain/"]
-COPY ["src/Drop.LocationEngine.MongoDB/Drop.LocationEngine.MongoDB.csproj", "src/Drop.LocationEngine.MongoDB/"]
-COPY ["src/Drop.LocationEngine.HttpApi/Drop.LocationEngine.HttpApi.csproj", "src/Drop.LocationEngine.HttpApi/"]
-RUN dotnet restore "src/Drop.LocationEngine.MqClient/Drop.LocationEngine.MqClient.csproj"
+COPY ["src/AGV.Laundry.MqClient/Drop.LocationEngine.MqClient.csproj", "src/AGV.Laundry.MqClient/"]
+COPY ["src/AGV.Laundry.HttpApi.Host/Drop.LocationEngine.HttpApi.Host.csproj", "src/AGV.Laundry.HttpApi.Host/"]
+COPY ["src/AGV.Laundry.Application/Drop.LocationEngine.Application.csproj", "src/AGV.Laundry.Application/"]
+COPY ["src/AGV.Laundry.Application.Contracts/Drop.LocationEngine.Application.Contracts.csproj", "src/AGV.Laundry.Application.Contracts/"]
+COPY ["src/AGV.Laundry.Domain.Shared/Drop.LocationEngine.Domain.Shared.csproj", "src/AGV.Laundry.Domain.Shared/"]
+COPY ["src/AGV.Laundry.Domain/Drop.LocationEngine.Domain.csproj", "src/AGV.Laundry.Domain/"]
+COPY ["src/AGV.Laundry.MongoDB/Drop.LocationEngine.MongoDB.csproj", "src/AGV.Laundry.MongoDB/"]
+COPY ["src/AGV.Laundry.HttpApi/Drop.LocationEngine.HttpApi.csproj", "src/AGV.Laundry.HttpApi/"]
+RUN dotnet restore "src/AGV.Laundry.MqClient/AGV.Laundry.MqClient.csproj"
 COPY . .
-WORKDIR "/src/src/Drop.LocationEngine.MqClient"
+WORKDIR "/src/src/AGV.Laundry.MqClient"
 RUN mv appsettings.production.json appsettings.json
-RUN dotnet build "Drop.LocationEngine.MqClient.csproj" -c Release -o /app/build
+RUN dotnet build "AGV.Laundry.MqClient.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Drop.LocationEngine.MqClient.csproj" -c Release -o /app/publish
+RUN dotnet publish "AGV.Laundry.MqClient.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Drop.LocationEngine.MqClient.dll"]
+ENTRYPOINT ["dotnet", "AGV.Laundry.MqClient.dll"]
