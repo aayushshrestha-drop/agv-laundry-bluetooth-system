@@ -14,7 +14,7 @@ setTimeout(() => {
     });
     server.on('message', function (message, remote) {
         try {
-            console.log(message)
+            console.log(message.toString())
             // const parsed = protocol.parseMessage(message);
             // if (parsed.tag_mac.startsWith('2034')) {
             //     //console.log('---------------------------------------------------------------------------------------------');
