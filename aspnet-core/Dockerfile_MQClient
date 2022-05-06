@@ -8,14 +8,14 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 #COPY ["nuget.config", "."]
-COPY ["src/AGV.Laundry.MqClient/Drop.LocationEngine.MqClient.csproj", "src/AGV.Laundry.MqClient/"]
-COPY ["src/AGV.Laundry.HttpApi.Host/Drop.LocationEngine.HttpApi.Host.csproj", "src/AGV.Laundry.HttpApi.Host/"]
-COPY ["src/AGV.Laundry.Application/Drop.LocationEngine.Application.csproj", "src/AGV.Laundry.Application/"]
-COPY ["src/AGV.Laundry.Application.Contracts/Drop.LocationEngine.Application.Contracts.csproj", "src/AGV.Laundry.Application.Contracts/"]
-COPY ["src/AGV.Laundry.Domain.Shared/Drop.LocationEngine.Domain.Shared.csproj", "src/AGV.Laundry.Domain.Shared/"]
-COPY ["src/AGV.Laundry.Domain/Drop.LocationEngine.Domain.csproj", "src/AGV.Laundry.Domain/"]
-COPY ["src/AGV.Laundry.MongoDB/Drop.LocationEngine.MongoDB.csproj", "src/AGV.Laundry.MongoDB/"]
-COPY ["src/AGV.Laundry.HttpApi/Drop.LocationEngine.HttpApi.csproj", "src/AGV.Laundry.HttpApi/"]
+COPY ["src/AGV.Laundry.MqClient/AGV.Laundry.MqClient.csproj", "src/AGV.Laundry.MqClient/"]
+COPY ["src/AGV.Laundry.HttpApi.Host/AGV.Laundry.HttpApi.Host.csproj", "src/AGV.Laundry.HttpApi.Host/"]
+COPY ["src/AGV.Laundry.Application/AGV.Laundry.Application.csproj", "src/AGV.Laundry.Application/"]
+COPY ["src/AGV.Laundry.Application.Contracts/AGV.Laundry.Application.Contracts.csproj", "src/AGV.Laundry.Application.Contracts/"]
+COPY ["src/AGV.Laundry.Domain.Shared/AGV.Laundry.Domain.Shared.csproj", "src/AGV.Laundry.Domain.Shared/"]
+COPY ["src/AGV.Laundry.Domain/AGV.Laundry.Domain.csproj", "src/AGV.Laundry.Domain/"]
+COPY ["src/AGV.Laundry.MongoDB/AGV.Laundry.MongoDB.csproj", "src/AGV.Laundry.MongoDB/"]
+COPY ["src/AGV.Laundry.HttpApi/AGV.Laundry.HttpApi.csproj", "src/AGV.Laundry.HttpApi/"]
 RUN dotnet restore "src/AGV.Laundry.MqClient/AGV.Laundry.MqClient.csproj"
 COPY . .
 WORKDIR "/src/src/AGV.Laundry.MqClient"
