@@ -1,0 +1,135 @@
+.customer-table--wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.customer-table {
+  width: 100%;
+
+  thead {
+    border-bottom: 2px solid rgba($primary, 0.4);
+
+    th {
+      color: $primary-blue;
+      max-width: 200px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid $gray;
+
+      &:hover {
+        background-color: $gray;
+      }
+    }
+
+    td {
+      color: $grey;
+    }
+  }
+
+  th,
+  td {
+    padding: 27px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 22px;
+  }
+}
+
+.pagination {
+  margin-top: 32px;
+  justify-content: center;
+
+  @media (min-width: 512px) {
+    justify-content: flex-end;
+  }
+
+  .page-item {
+    height: 32px;
+    width: 32px;
+    border-radius: 4px;
+    margin-right: 1px;
+
+    .page-link {
+      border-radius: 4px 4px 0 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      padding: 1px 7px;
+      font-weight: 500;
+      @include centering(center, center);
+      border: none;
+      color: $grey;
+      border-bottom: 2px solid transparent;
+
+      .ng-star-inserted {
+        color: $white;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    &:first-child .page-link,
+    &:last-child .page-link {
+      background-color: $primary;
+    }
+
+    &.disabled .page-link {
+      background-color: #ddd;
+    }
+
+    &.active .page-link {
+      color: $primary;
+      background-color: transparent;
+      border-bottom: 2px solid $primary;
+    }
+  }
+}
+
+.sales-table {
+  width: 100%;
+
+  thead {
+    border-bottom: 1px solid #ddd;
+
+    th {
+      color: $primary-blue;
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    tr {
+      border-top: 1px solid #ddd;
+
+      &.total {
+        border-top: 1px solid $ruby-guideline;
+
+        td {
+          color: $ruby-guideline;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  // tr {
+  //   th:last-child,
+  //   td:last-child {
+  //     text-align: right;
+  //   }
+  // }
+
+  th,
+  td {
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 22px;
+  }
+}

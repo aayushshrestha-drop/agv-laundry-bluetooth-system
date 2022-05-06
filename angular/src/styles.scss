@@ -1,0 +1,28 @@
+//\\ *********** Global Css *********** //\\
+
+// --- Logical Css --- //
+@import 'styles/mixins/variables';
+@import 'styles/mixins/mixins';
+
+// --- Basic Layout Css --- //
+@import 'styles/base/font';
+@import 'styles/base/base';
+
+// --- Overwrite Vender Css --- //
+@import 'styles/overwrite/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+// --- Components Css --- //
+@import 'styles/components/login';
+@import 'styles/components/buttons';
+@import 'styles/components/loader';
+@import 'styles/components/navbar';
+@import 'styles/components/table';
+@import 'styles/components/form';
+@import 'styles/components/scrollbar';
+@import 'styles/components/badge';
+@import 'styles/components/drawer';
+@import 'styles/components/carousel';
+@import 'styles/components/card';

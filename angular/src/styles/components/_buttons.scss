@@ -1,0 +1,52 @@
+@media (max-width: 512px) {
+  .btn {
+    font-size: 13px !important;
+  }
+}
+
+.btn-primary {
+  background-color: $primary !important;
+  border-color: $primary !important;
+
+  &:hover {
+    background-color: $primary !important;
+    border-color: $primary !important;
+  }
+}
+
+.btn-outline-primary {
+  border-width: 2px !important;
+}
+
+.btn-primary--gradient {
+  background: linear-gradient(89.75deg, $primary-blue -34.2%, $secondary 135.89%) !important;
+  color: $white !important;
+  border: 2px solid #823478 !important;
+  transition: all 0.4s ease-in-out;
+
+  &:hover {
+    background: linear-gradient(89.75deg, $primary-blue -135.89%, $secondary 100%) !important;
+  }
+}
+
+.btn-outline-primary--gradient {
+  font-weight: 700 !important;
+  color: $primary !important;
+  border: 2px solid $primary !important;
+  &:hover {
+    background: $primary !important;
+    color: $white !important;
+
+    img {
+      filter: brightness(0) invert(1);
+    }
+  }
+}
+
+.btn {
+  padding: 6px 16px !important;
+
+  @media (min-width: 992px) {
+    padding: 9px 32px !important;
+  }
+}

@@ -1,0 +1,13 @@
+.card {
+    margin-top: 40px;
+    .card-header {
+        background: $linear-back;
+    }
+    .card-title {
+        color: rgba($white, 0.8);
+        padding: 10px 0px;
+        font-weight: 300;
+        position: relative;
+        z-index: 1;
+    }
+}

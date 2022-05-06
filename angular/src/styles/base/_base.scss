@@ -1,0 +1,137 @@
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border: none;
+}
+
+body {
+  font-family: $font !important;
+  color: $grey !important;
+}
+
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  outline: none;
+}
+
+.pop-over {
+  list-style-type: none;
+  margin: 0;
+  padding: 8px 0;
+
+  li {
+    a {
+      padding: 0px 16px;
+      font-size: 14px;
+      line-height: 40px;
+      display: flex;
+      color: $grey !important;
+    }
+
+    &.active a,
+    &:hover a {
+      background-color: $primary;
+      color: $white !important;
+      text-decoration: none;
+    }
+  }
+}
+
+.modal-backdrop {
+  background-color: rgba(106, 106, 106, 0.4) !important;
+
+  &.show {
+    opacity: 1 !important;
+  }
+}
+
+label.error {
+  padding: 13px 21px;
+  background-color: rgba(#ffc8c8, 0.5);
+  border-radius: 5px;
+  border: 1px solid $ruby-guideline;
+  margin-bottom: 16px;
+
+  //text
+  font-size: 14px;
+  line-height: 19px;
+  font-weight: 600;
+  width: 100%;
+  color: $ruby-guideline;
+}
+
+label.success {
+  padding: 26px 32px;
+  background-color: #f6ffed;
+  border-radius: 5px;
+  border: 1px solid $lime;
+  margin-bottom: 32px;
+  @include centering(flex-start, end);
+
+  //text
+  font-size: 14px;
+  line-height: 19px;
+  font-weight: 600;
+  width: 100%;
+  color: #375728;
+
+  &.light {
+    font-weight: 400;
+    background-color: rgba(178, 211, 62, 0.2);
+  }
+
+  a {
+    text-decoration: underline;
+    color: $secondary;
+  }
+
+  img {
+    margin-right: 10px;
+  }
+}
+
+//bootstrap container override for ABP-Layout-Framework
+abp-layout-application {
+  & > .container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    @media all and (min-width: 1200px) {
+      max-width: 100%;
+    }
+    @media all and (min-width: 992px) {
+      max-width: 100%;
+    }
+    @media all and (min-width: 768px) {
+      max-width: 100%;
+    }
+    @media all and (min-width: 576px) {
+      max-width: 100%;
+    }
+  }
+}
+
+.picsum-img-wrapper {
+    width: 100%;
+
+    img {
+        width: 100%;
+        display: block;
+        // height: 100%;
+    }
+}
+
+.confirmation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+// End of bootstrap container override for ABP-Layout-Framework

@@ -1,0 +1,32 @@
+@mixin font-face($src, $weight) {
+  @font-face {
+    font-family: $font;
+    src: url($src) format('woff');
+    font-weight: $weight;
+    font-style: normal;
+  }
+}
+
+@mixin  centering($jusitfy, $align) {
+  display: flex;
+  justify-content: $jusitfy;
+  align-items: $align;
+}
+
+@mixin Before($top, $left) {
+  position: absolute;
+  content: '';
+  top: $top;
+  left: $left;
+}
+
+@mixin After($bottom, $right) {
+  position: absolute;
+  content: '';
+  bottom: $bottom;
+  right: $right;
+}
+
+@mixin  Transition($name) {
+  transition: $name 0.35s cubic-bezier(0.65, 0.005, 0.35, 0.995);
+}

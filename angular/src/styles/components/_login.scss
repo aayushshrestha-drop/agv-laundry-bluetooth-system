@@ -1,0 +1,103 @@
+.login {
+  background: url('../../assets/svg/loginBack.svg') center no-repeat;
+  overflow: hidden;
+  padding: 35px 0;
+
+  &-nav {
+    padding-bottom: 70px;
+  }
+
+  form {
+    padding-left: 3px;
+  }
+
+  &-details {
+    &--title {
+      font-size: 32px;
+      line-height: 40px;
+      font-weight: 600;
+      color: $secondary;
+      margin-bottom: 12px;
+
+      br {
+        display: none;
+      }
+
+      span {
+        color: $secondary;
+      }
+
+      @media (min-width: 768px) {
+        br {
+          display: block;
+        }
+        color: $black;
+      }
+
+      @media (min-width: 992px) {
+        font-size: 42px;
+        line-height: 50px;
+      }
+    }
+
+    span.supportUs {
+      font-size: 13px;
+      font-weight: 600;
+
+      a {
+        color: $secondary;
+        text-decoration: underline;
+      }
+    }
+
+    p {
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 23px;
+
+      strong {
+        font-weight: 600;
+        color: $black;
+      }
+    }
+  }
+
+  &-image {
+    position: relative;
+
+    &--1,
+    &--2 {
+      position: absolute;
+    }
+
+    &--2 {
+      bottom: 35px;
+      right: 0px;
+      width: 20%;
+
+      @media (min-width: 512px) and (max-width: 992px) {
+        bottom: 50px;
+      }
+
+      @media (min-width: 993px) {
+        bottom: 80px;
+      }
+    }
+
+    &--1 {
+      width: 30%;
+    }
+  }
+
+  &-footer {
+    display: flex;
+    align-items: flex-end;
+
+    span {
+      flex-grow: 100;
+      padding-top: 15px;
+      border-top: 1px solid #cdcdcd;
+      font-size: 13px;
+    }
+  }
+}

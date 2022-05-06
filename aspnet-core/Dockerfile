@@ -1,0 +1,30 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+WORKDIR /src
+#COPY ["nuget.config", "."]
+COPY ["src/Drop.LocationEngine.HttpApi.Host/Drop.LocationEngine.HttpApi.Host.csproj", "src/Drop.LocationEngine.HttpApi.Host/"]
+COPY ["src/Drop.LocationEngine.Application/Drop.LocationEngine.Application.csproj", "src/Drop.LocationEngine.Application/"]
+COPY ["src/Drop.LocationEngine.Application.Contracts/Drop.LocationEngine.Application.Contracts.csproj", "src/Drop.LocationEngine.Application.Contracts/"]
+COPY ["src/Drop.LocationEngine.Domain.Shared/Drop.LocationEngine.Domain.Shared.csproj", "src/Drop.LocationEngine.Domain.Shared/"]
+COPY ["src/Drop.LocationEngine.Domain/Drop.LocationEngine.Domain.csproj", "src/Drop.LocationEngine.Domain/"]
+COPY ["src/Drop.LocationEngine.MongoDB/Drop.LocationEngine.MongoDB.csproj", "src/Drop.LocationEngine.MongoDB/"]
+COPY ["src/Drop.LocationEngine.HttpApi/Drop.LocationEngine.HttpApi.csproj", "src/Drop.LocationEngine.HttpApi/"]
+RUN dotnet restore "src/Drop.LocationEngine.HttpApi.Host/Drop.LocationEngine.HttpApi.Host.csproj"
+COPY . .
+WORKDIR "/src/src/Drop.LocationEngine.HttpApi.Host"
+RUN mv appsettings.Production.json appsettings.json
+RUN dotnet build "Drop.LocationEngine.HttpApi.Host.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Drop.LocationEngine.HttpApi.Host.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Drop.LocationEngine.HttpApi.Host.dll"]

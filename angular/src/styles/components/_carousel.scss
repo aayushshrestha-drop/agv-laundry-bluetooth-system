@@ -1,0 +1,20 @@
+.carousel {
+  &:focus {
+    outline: none;
+  }
+  &-control-prev,
+  &-control-next {
+    opacity: 0;
+  }
+
+  &-indicators li {
+    width: 8px;
+    height: 8px;
+    background-color: #b63f81;
+  }
+
+  &-control-prev-icon,
+  &-control-next-icon {
+    filter: brightness(0);
+  }
+}

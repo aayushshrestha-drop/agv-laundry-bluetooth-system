@@ -1,0 +1,138 @@
+.bg-primary {
+  background-color: $primary;
+  color: $white;
+}
+
+.bg-white:hover {
+  background-color: $gray !important;
+}
+
+.popover {
+  border-radius: 0 !important;
+  border: 0 !important;
+  box-shadow: 0px 9px 28px 8px rgba(221, 221, 221, 0.788);
+
+  &-body {
+    padding: 0 !important;
+  }
+}
+
+.bs-popover-bottom > .arrow::before,
+.bs-popover-auto[x-placement^='bottom'] > .arrow::before {
+  border-color: transparent !important;
+}
+
+.text-lime {
+  color: $lime;
+}
+
+.text-primary-dark {
+  color: $ruby-guideline;
+}
+
+// Modal
+.modal-dialog {
+  position: relative;
+
+  button.close {
+    position: absolute;
+    top: 10px;
+    right: 13px;
+    z-index: 1;
+  }
+}
+
+.modal-body {
+  padding: 30px !important;
+  text-align: center;
+
+  @media (min-width: 992px) {
+    padding: 50px 40px !important;
+  }
+
+  p {
+    margin-bottom: 0;
+    font-weight: 500;
+    line-height: 26px;
+  }
+
+  h4 {
+    margin: 24px 0;
+    line-height: 30px;
+    font-weight: 700;
+
+    span {
+      color: $secondary;
+    }
+  }
+
+  &--btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+  }
+}
+
+.modal-content {
+  border: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: 0px 3px 6px -4px rgb(0 0 0 / 12%), 0px 6px 16px rgb(0 0 0 / 8%),
+    0px 9px 28px 8px rgb(0 0 0 / 5%);
+}
+
+//tabs
+
+.sales {
+  .nav {
+    align-items: flex-end;
+
+    @media (max-width: 512px) {
+      display: block;
+    }
+
+    &-tabs {
+      border-bottom: 5px solid $primary !important;
+
+      .nav-link {
+        font-size: 16px;
+        font-weight: 500;
+        padding: 9px 15px;
+        margin-right: 0px;
+        cursor: pointer;
+        color: $grey !important;
+        margin-bottom: 0px !important;
+        border-style: solid !important;
+        border-color: #f0f0f0 !important;
+        border-width: 2px 2px 0 2px !important;
+        @include Transition(all);
+
+        @media (min-width: 512px) {
+          margin-right: 8px;
+        }
+      }
+
+      .nav-link.active,
+      .nav-item.show .nav-link {
+        background-color: $primary !important;
+        border-color: $primary !important;
+        color: $white !important;
+        padding: 15px 33px 15px 33px;
+      }
+    }
+  }
+}
+
+// tab-cotents
+.tab-content {
+  padding: 32px 0;
+}
+
+//Custom FIle Upload
+.custom-file-input:lang(en) ~ .custom-file-label::after {
+  display: none;
+}
+
+.bs-popover-bottom-right>.arrow{
+  left: auto !important;
+  right: 0em !important;
+}

@@ -1,0 +1,111 @@
+.form {
+  &-group {
+    position: relative;
+
+    &.big {
+      margin-bottom: 32px !important;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 26px;
+      margin-bottom: 5px;
+    }
+
+    .form-control {
+      height: 46px;
+      border: 1px solid $grey;
+      padding: 7px 15px;
+
+      &.icon {
+        padding: 12px 40px 12px 15px;
+      }
+    }
+
+    input::-ms-reveal,
+    input::-ms-clear {
+      display: none;
+    }
+
+    &--icon {
+      position: absolute;
+      top: 16px;
+      right: 14px;
+      cursor: pointer;
+      line-height: 1;
+      color: $primary;
+    }
+  }
+
+  &-forgetPass,
+  &-check-label a, .login-details .TC {
+    font-size: 13px;
+    line-height: 19px;
+    color: $secondary;
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  &-check {
+    padding-top: 20px;
+  }
+}
+
+.form-check-label {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 26px;
+  margin-bottom: 5px;
+}
+
+/* //custom radio button */
+
+[type='radio']:checked + label,
+[type='radio']:not(:checked) + label {
+  position: relative;
+  padding-left: 4px;
+  cursor: pointer;
+  line-height: 20px;
+  display: inline-block;
+  color: $grey;
+  margin-right: 15px;
+}
+[type='radio']:checked + label:before,
+[type='radio']:not(:checked) + label:before {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid $primary;
+  border-radius: 100%;
+  background: $white;
+}
+[type='radio']:checked + label:after,
+[type='radio']:not(:checked) + label:after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: $primary;
+  position: absolute;
+  top: 6px;
+  left: -18px;
+  border-radius: 100%;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+[type='radio']:not(:checked) + label:after {
+  opacity: 0;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+[type='radio']:checked + label:after {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+/* end of custom radio button */

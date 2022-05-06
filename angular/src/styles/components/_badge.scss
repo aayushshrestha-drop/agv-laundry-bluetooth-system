@@ -1,0 +1,21 @@
+.badge {
+  padding: 5px 8px !important;
+  background: rgba(136, 44, 98, 0.1);
+  font-size: 13px !important;
+  line-height: 20px;
+
+  &-active {
+    color: #375728;
+    border: 1px solid #B2D33E;
+  }
+
+  &-error {
+    color: $ruby-guideline;
+    border: 1px solid $ruby-guideline;
+  }
+
+  span {
+      vertical-align: middle;
+      margin-left: 5px;
+  }
+}
