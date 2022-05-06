@@ -14,18 +14,12 @@ setTimeout(() => {
     });
     server.on('message', function (message, remote) {
         try {
-            console.log(message.toString())
-            // const parsed = protocol.parseMessage(message);
-            // if (parsed.tag_mac.startsWith('2034')) {
-            //     //console.log('---------------------------------------------------------------------------------------------');
-            //     const msg = `${message.toString('hex').length} \n`;
-            //     // console.log(message.toString('hex'));
-            //     // console.log(msg);
-            //     // console.log(parsed)
-            //     // console.log(`${parsed.ap_mac} ---> ${parsed.tag_mac} | ${parsed.rssi}`)
-            //     rabbitmq.sendMessage(JSON.stringify(parsed));
-            //     // console.log('---------------------------------------------------------------------------------------------');
-            // }
+            const parsed = JSON.parse(message.toString());
+            if (parsed.tagAddress.startsWith('2034')) {
+                const msg = `${message.toString('hex').length} \n`;
+                console.log(`${parsed.address} ---> ${parsed.tagAddress} | ${parsed.rssi} | ${parsed.batt}`)
+                //rabbitmq.sendMessage(JSON.stringify(parsed));
+            }
         }
         catch (ex) {
             console.log(ex)
