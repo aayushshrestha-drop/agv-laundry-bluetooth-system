@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "prod": "ng build --prod",
-    "prod:aws": "ng build --prod --base-href /client/"
+    "prod:aws": "ng build --prod --base-href /agv/"
   },
   "private": true,
   "dependencies": {
