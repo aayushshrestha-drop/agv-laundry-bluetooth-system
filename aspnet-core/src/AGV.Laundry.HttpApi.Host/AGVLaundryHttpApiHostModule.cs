@@ -213,6 +213,8 @@ namespace AGV.Laundry
             var app = context.GetApplicationBuilder();
             var env = context.GetEnvironment();
             var configuration = context.GetConfiguration();
+            var pathBase = configuration["App:PathBase"];
+            app.UsePathBase(pathBase);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -245,16 +247,43 @@ namespace AGV.Laundry
             app.UseIdentityServer();
             app.UseAuthorization();
 
-            app.UseSwagger();
-            app.UseAbpSwaggerUI(c =>
+            if (!string.IsNullOrWhiteSpace(pathBase))
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AGVLaundry API");
+                app.UseSwagger(swaggerOptions => {
+                    swaggerOptions.PreSerializeFilters.Add((swaggerDoc, httpReq) => {
+                        var paths = new OpenApiPaths();
+                        foreach (var path in swaggerDoc.Paths)
+                        {
+                            paths.Add(pathBase + path.Key, path.Value);
+                        }
+                        swaggerDoc.Paths = paths;
+                    });
+                });
+                app.UseSwaggerUI(options => {
+                    options.SwaggerEndpoint(pathBase + "/swagger/v1/swagger.json", "AGVLaundry API");
 
-                var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-                c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                c.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-                c.OAuthScopes("AGVLaundry");
-            });
+                    var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+                    options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                    options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+                    options.OAuthScopes("AGVLaundry");
+
+                });
+            }
+            else
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(options => {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "AGVLaundry API");
+
+                    var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+                    options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                    options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+                    options.OAuthScopes("AGVLaundry");
+                });
+            }
+
+
+
 
             app.UseAuditing();
             app.UseAbpSerilogEnrichers();
