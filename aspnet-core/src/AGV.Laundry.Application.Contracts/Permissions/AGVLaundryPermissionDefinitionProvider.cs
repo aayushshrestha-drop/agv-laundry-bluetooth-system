@@ -19,6 +19,11 @@ namespace AGV.Laundry.Permissions
             basestationsPermission.AddChild(AGVLaundryPermissions.BaseStations.Create, L("Permission:BaseStations.Create"));
             basestationsPermission.AddChild(AGVLaundryPermissions.BaseStations.Edit, L("Permission:BaseStations.Edit"));
             basestationsPermission.AddChild(AGVLaundryPermissions.BaseStations.Delete, L("Permission:BaseStations.Delete"));
+
+            var configurationsPermission = AGVLaundryGroup.AddPermission(AGVLaundryPermissions.Configurations.Default, L("Permission:Configurations"));
+            configurationsPermission.AddChild(AGVLaundryPermissions.Configurations.Create, L("Permission:Configurations.Create"));
+            configurationsPermission.AddChild(AGVLaundryPermissions.Configurations.Edit, L("Permission:Configurations.Edit"));
+            configurationsPermission.AddChild(AGVLaundryPermissions.Configurations.Delete, L("Permission:Configurations.Delete"));
         }
 
         private static LocalizableString L(string name)

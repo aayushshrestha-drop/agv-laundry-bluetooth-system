@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AGV.Laundry.Tags;
 using AGV.Laundry.BaseStations;
+using AGV.Laundry.Configurations;
 
 namespace AGV.Laundry
 {
@@ -16,6 +17,9 @@ namespace AGV.Laundry
 
             CreateMap<BaseStation, BaseStationDto>();
             CreateMap<CreateUpdateBaseStationDto, BaseStation>();
+
+            CreateMap<Configuration, ConfigurationDto>();
+            CreateMap<CreateUpdateConfigurationDto, Configuration>();
         }
     }
 }

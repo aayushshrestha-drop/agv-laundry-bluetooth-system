@@ -207,6 +207,7 @@ namespace AGV.Laundry
 
             app.UseForwardedHeaders(fordwardedHeaderOptions);
         }
+        
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {

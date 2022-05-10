@@ -7,7 +7,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "AGVLaundryEngine": {
+    "AGVLaundry": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {

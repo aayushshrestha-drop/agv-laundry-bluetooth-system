@@ -41,6 +41,25 @@ namespace AGV.Laundry.TagLocation
             {
 
                 application.Initialize();
+                var _tagRepository = application
+                    .ServiceProvider
+                    .GetRequiredService<IRepository<Tag>>();
+
+                var tags = await _tagRepository.ToListAsync();
+                foreach (var tag in tags.Where(x => x.Status))
+                {
+                    try
+                    {
+                        
+                        //await _tagApiService.ProcessTag(dto);
+                    }
+                    catch (Exception)
+                    {
+                        //process doesnot break if one tag process fail
+                        continue;
+                    }
+                }
+
                 application.Shutdown();
                 _hostApplicationLifetime.StopApplication();
             }

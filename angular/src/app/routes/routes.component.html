@@ -7,6 +7,10 @@
     [routerLinkActiveOptions]="{ exact: true }">
     <a class="nav-link" routerLink="/basestations">{{ '::Menu:BaseStations' | abpLocalization}}</a>
   </li>
+  <li *abpPermission="'AGVLaundry.Configurations'" class="nav-item" routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }">
+    <a class="nav-link" routerLink="/configurations">{{ '::Menu:Configurations' | abpLocalization}}</a>
+  </li>
   <li #navbarRootDropdown [abpVisibility]="routeContainer" class="nav-item dropdown" display="static" (click)="
         navbarRootDropdown.expand
           ? (navbarRootDropdown.expand = false)
