@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AGV.Laundry.Enums;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace AGV.Laundry.TagLocationLogs
@@ -20,11 +21,6 @@ namespace AGV.Laundry.TagLocationLogs
             BasestationId = basestationId;
             TagId = tagId;
             Status = status;
-        }
-        public enum TagLocationLogStatus
-        {
-            IN = 1,
-            OUT = 2
         }
     }
 }

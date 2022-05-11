@@ -1,0 +1,48 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col col-md-6">
+        <h5 class="card-title">
+          {{ '::Menu:TagLocationLogs' | abpLocalization}}
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <form id="tag-location-log-form" [formGroup]="form">
+      <div class="form-group">
+        <label for="tagId">Tag</label>
+        <select class="form-control" id="tagId" formControlName="tagId" (change)="change()">
+          <option *ngFor="let tag of tags" [ngValue]="tag.id">{{tag.cartNo}} - {{tag.tagId}}</option>
+        </select>
+      </div>
+    </form>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">{{ '::BSIP' | abpLocalization}}</th>
+          <th scope="col">{{ '::Hotel' | abpLocalization}}</th>
+          <th scope="col">{{ '::LotNo' | abpLocalization}}</th>
+          <!-- <th scope="col">{{ '::TagId' | abpLocalization}}</th>
+          <th scope="col">{{ '::CartNo' | abpLocalization}}</th> -->
+          <th scope="col">{{ '::Timestamp' | abpLocalization}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!tagLocationLogs.length">
+          <td colspan="6" style="text-align: center;">No Tags Found.</td>
+        </tr>
+        <tr *ngFor="let log of tagLocationLogs; let i=index;">
+          <th scope="row">{{i+1}}</th>
+          <td>{{log.basestationIp}}</td>
+          <td>{{log.hotel}}</td>
+          <td>{{log.lot}}</td>
+          <!-- <td>{{log.tagMac}}</td>
+          <td>{{log.cart}}</td> -->
+          <td>{{log.creationTime | date: 'medium'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

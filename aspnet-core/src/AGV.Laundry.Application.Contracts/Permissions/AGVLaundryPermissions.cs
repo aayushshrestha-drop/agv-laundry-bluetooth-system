@@ -28,6 +28,10 @@
             public const string Edit = Default + ".Edit";
             public const string Delete = Default + ".Delete";
         }
-        
+        public static class TagLocationLogs
+        {
+            public const string Default = GroupName + ".TagLocationLogs";
+        }
+
     }
 }

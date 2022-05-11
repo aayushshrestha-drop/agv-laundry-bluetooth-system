@@ -24,6 +24,9 @@ namespace AGV.Laundry.Permissions
             configurationsPermission.AddChild(AGVLaundryPermissions.Configurations.Create, L("Permission:Configurations.Create"));
             configurationsPermission.AddChild(AGVLaundryPermissions.Configurations.Edit, L("Permission:Configurations.Edit"));
             configurationsPermission.AddChild(AGVLaundryPermissions.Configurations.Delete, L("Permission:Configurations.Delete"));
+
+
+            var tagLocationLogsPermission = AGVLaundryGroup.AddPermission(AGVLaundryPermissions.TagLocationLogs.Default, L("Permission:TagLocationLogs"));
         }
 
         private static LocalizableString L(string name)

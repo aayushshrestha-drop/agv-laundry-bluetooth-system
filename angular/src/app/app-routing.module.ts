@@ -28,6 +28,7 @@ const routes: Routes = [
   { path: 'tags', loadChildren: () => import('./tag/tag.module').then(m => m.TagModule) },
   { path: 'basestations', loadChildren: () => import('./basestation/basestation.module').then(m => m.BaseStationModule)},
   { path: 'configurations', loadChildren: () => import('./configuration/configuration.module').then(m => m.ConfigurationModule)},
+  { path: 'tag-location-logs', loadChildren: () => import('./tag-location-log/tag-location-log.module').then(m => m.TagLocationLogModule)},
 ];
 
 @NgModule({

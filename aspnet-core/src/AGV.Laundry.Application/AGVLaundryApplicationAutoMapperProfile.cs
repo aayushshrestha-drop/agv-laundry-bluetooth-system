@@ -2,6 +2,7 @@
 using AGV.Laundry.Tags;
 using AGV.Laundry.BaseStations;
 using AGV.Laundry.Configurations;
+using AGV.Laundry.TagLocationLogs;
 
 namespace AGV.Laundry
 {
@@ -20,6 +21,8 @@ namespace AGV.Laundry
 
             CreateMap<Configuration, ConfigurationDto>();
             CreateMap<CreateUpdateConfigurationDto, Configuration>();
+
+            CreateMap<TagLocationLog, TagLocationLogDto>();
         }
     }
 }

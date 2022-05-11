@@ -8,14 +8,16 @@
     "Menu:Tags": "Tags",
     "Menu:BaseStations": "Base Stations",
     "Menu:Configurations": "Configurations",
+    "Menu:TagLocationLogs": "Tag Location Logs",
     "SystemName": "System Name",
     "DisplayName": "Display Name",
     "TagId": "Tag Mac",
     "Status": "Status",
-    "CartNo": "Cart No",
+    "CartNo": "Cart No.",
     "BSIP": "Basestation IP",
     "Hotel": "Hotel",
-    "LotNo": "Lot No."
+    "LotNo": "Lot No.",
+    "Timestamp": "Timestamp"
 
   }
 }
