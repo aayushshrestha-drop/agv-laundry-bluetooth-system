@@ -225,8 +225,8 @@ namespace AGV.Laundry.TagLocation
                             if (NO_PACKET_WAIT_IN_SECONDS_FOR_AUTO_CART_EXIT != null) int.TryParse(NO_PACKET_WAIT_IN_SECONDS_FOR_AUTO_CART_EXIT.Value, out autoCartExitInSeconds);
 
 
-                            var compareTime = lastTagLocationLog.CreationTime.AddSeconds(-autoCartExitInSeconds);
-                            if(compareTime >= DateTime.Now)
+                            var compareTime = DateTime.Now.AddSeconds(-autoCartExitInSeconds);
+                            if(compareTime >= lastTagLocationLog.CreationTime)
                             {
                                 if (lastTagLocationLog.Status == Enums.TagLocationLogStatus.IN)
                                 {
