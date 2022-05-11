@@ -9,5 +9,6 @@ export interface TagLocationLogDto {
   tagMac?: string;
   cart?: string;
   status: TagLocationLogStatus;
+  statusString?: string;
   creationTime?: string;
 }

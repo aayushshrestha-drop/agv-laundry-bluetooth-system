@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
       key: eThemeBasicComponents.Routes,
     });
     if (this.hasLoggedIn) {
-      this.initSignalR();
+      //this.initSignalR();
     }
 
   }

@@ -26,6 +26,7 @@
           <th scope="col">{{ '::LotNo' | abpLocalization}}</th>
           <!-- <th scope="col">{{ '::TagId' | abpLocalization}}</th>
           <th scope="col">{{ '::CartNo' | abpLocalization}}</th> -->
+          <th scope="col">{{ '::Status' | abpLocalization}}</th>
           <th scope="col">{{ '::Timestamp' | abpLocalization}}</th>
         </tr>
       </thead>
@@ -40,6 +41,7 @@
           <td>{{log.lot}}</td>
           <!-- <td>{{log.tagMac}}</td>
           <td>{{log.cart}}</td> -->
+          <td>{{log.statusString}}</td>
           <td>{{log.creationTime | date: 'medium'}}</td>
         </tr>
       </tbody>

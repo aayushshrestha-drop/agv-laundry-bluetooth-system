@@ -14,6 +14,7 @@ namespace AGV.Laundry.TagLocationLogs
         public string TagMac { get; set; }
         public string Cart { get; set; }
         public TagLocationLogStatus Status { get; set; }
+        public string StatusString { get; set; }
         public DateTime CreationTime { get; set; }
     }
 }
