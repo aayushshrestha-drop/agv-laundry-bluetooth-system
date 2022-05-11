@@ -77,7 +77,9 @@ namespace AGV.Laundry.TagLocation
 
                 var time = DateTime.Now.AddSeconds(packetIntervalForMasterNodeWindowInSeconds);
 
-                var allTagsRssi = _tagRssiRepository.Where(w => w.CreationTime >= time && bsAddresses.Contains(w.BaseStationIP) && tagIds.Contains(w.TagId));
+                var allTagsRssi = _tagRssiRepository.Where(w => 
+                //w.CreationTime >= time && 
+                bsAddresses.Contains(w.BaseStationIP) && tagIds.Contains(w.TagId));
                 foreach (var item in tags)
                 {
                     var tagRssis = allTagsRssi.Where(w => w.TagId.Equals(item.TagId));
@@ -132,7 +134,7 @@ namespace AGV.Laundry.TagLocation
                                     && lastTagLocationLog.BasestationId != masterNode.Id)
                                 {
                                     var lot = baseStations.FirstOrDefault(f => f.Id.Equals(lastTagLocationLog.BasestationId)).LotNo;
-                                    var cart = tags.FirstOrDefault(f => f.Id.Equals(item.TagId)).CartNo;
+                                    var cart = tags.FirstOrDefault(f => f.Id.Equals(item.Id)).CartNo;
                                     //STATE OUT from last basestation
                                     await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
                                     {
@@ -181,7 +183,7 @@ namespace AGV.Laundry.TagLocation
                                 var masterNode = baseStations.FirstOrDefault(f => f.BSIP.Equals(maxRssis.FirstOrDefault().BaseStationIP));
 
                                 var occupiedLot = _tagLocationLogRepository.Where(w => w.BasestationId.Equals(masterNode.Id)).OrderByDescending(o => o.CreationTime).FirstOrDefault();
-                                var cart = tags.FirstOrDefault(f => f.Id.Equals(item.TagId)).CartNo;
+                                var cart = tags.FirstOrDefault(f => f.Id.Equals(item.Id)).CartNo;
                                 if (occupiedLot != null)
                                 {
                                     if (occupiedLot.Status == TagLocationLog.TagLocationLogStatus.IN)
