@@ -23,7 +23,7 @@ namespace AGV.Laundry.MqClient
                 .MinimumLevel.Override("Drop.AGVLaundry", LogEventLevel.Information)
 #endif
                 .Enrich.FromLogContext()
-                .WriteTo.Async(c => c.File("Logs/logs.txt"))
+                .WriteTo.Async(c => c.File("Logs/logs.txt", rollingInterval: RollingInterval.Day))
                 .WriteTo.Async(c => c.Console())
                 .CreateLogger();
 

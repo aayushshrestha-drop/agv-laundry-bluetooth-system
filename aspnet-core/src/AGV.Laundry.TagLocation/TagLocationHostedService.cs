@@ -74,7 +74,7 @@ namespace AGV.Laundry.TagLocation
                 var IN_RSSI_THRESHOLD = await _configurationRepository.FirstOrDefaultAsync(f => f.Key.Equals(Keys.IN_RSSI_THRESHOLD));
                 if (IN_RSSI_THRESHOLD != null) int.TryParse(IN_RSSI_THRESHOLD.Value, out inRssiThreshold);
 
-                var time = DateTime.Now.AddSeconds(packetIntervalForMasterNodeWindowInSeconds);
+                var time = DateTime.Now.AddSeconds(-packetIntervalForMasterNodeWindowInSeconds);
 
                 var allTagsRssi = _tagRssiRepository.Where(w => 
                 w.CreationTime >= time && 
@@ -104,7 +104,7 @@ namespace AGV.Laundry.TagLocation
                                         {
                                             var lot = baseStations.FirstOrDefault(f => f.Id.Equals(occupiedLot.BasestationId)).LotNo;
                                             var occupiedCart = tags.FirstOrDefault(f => f.Id.Equals(occupiedLot.TagId)).CartNo;
-                                            Console.WriteLine($"{lot} is occupied with {occupiedCart}. Cannot insert {cart}.");
+                                            _logger.LogInformation($"{lot} is occupied with {occupiedCart}. Cannot insert {cart}.");
                                         }
                                         else
                                         {
@@ -114,7 +114,7 @@ namespace AGV.Laundry.TagLocation
                                                 TagId = item.Id,
                                                 Status = Enums.TagLocationLogStatus.IN
                                             });
-                                            Console.WriteLine($"{cart} inserted to {masterNode.LotNo}.");
+                                            _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
                                         }
                                     }
                                     else
@@ -125,7 +125,7 @@ namespace AGV.Laundry.TagLocation
                                             TagId = item.Id,
                                             Status = Enums.TagLocationLogStatus.IN
                                         });
-                                        Console.WriteLine($"{cart} inserted to {masterNode.LotNo}.");
+                                        _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
                                     }
                                 }
                                 // if last log exists and STATE is IN but for different basaestation, do STATE OUT from last basestation and STATE IN for new basestation
@@ -141,8 +141,7 @@ namespace AGV.Laundry.TagLocation
                                         TagId = item.Id,
                                         Status = Enums.TagLocationLogStatus.OUT
                                     });
-                                    Console.WriteLine($"{cart} exited from {lot}.");
-
+                                    _logger.LogInformation($"{cart} exited from {lot}.");
                                     //check if lot is occupied & STATE IN from new basestation
                                     var occupiedLot = _tagLocationLogRepository.Where(w => w.BasestationId.Equals(masterNode.Id)).OrderByDescending(o => o.CreationTime).FirstOrDefault();
                                     if(occupiedLot != null)
@@ -150,7 +149,7 @@ namespace AGV.Laundry.TagLocation
                                         if (occupiedLot.Status == Enums.TagLocationLogStatus.IN)
                                         {
                                             var occupiedCart = tags.FirstOrDefault(f => f.Id.Equals(occupiedLot.TagId)).CartNo;
-                                            Console.WriteLine($"{lot} is occupied with {occupiedCart}. Cannot insert {cart}.");
+                                            _logger.LogInformation($"{lot} is occupied with {occupiedCart}. Cannot insert {cart}.");
                                         }
                                         else
                                         {
@@ -160,7 +159,7 @@ namespace AGV.Laundry.TagLocation
                                                 TagId = item.Id,
                                                 Status = Enums.TagLocationLogStatus.IN
                                             });
-                                            Console.WriteLine($"{cart} inserted to {masterNode.LotNo}.");
+                                            _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
                                         }
                                     }
                                     else
@@ -171,7 +170,7 @@ namespace AGV.Laundry.TagLocation
                                             TagId = item.Id,
                                             Status = Enums.TagLocationLogStatus.IN
                                         });
-                                        Console.WriteLine($"{cart} inserted to {masterNode.LotNo}.");
+                                        _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
                                     }
                                 }
                             }
@@ -189,7 +188,7 @@ namespace AGV.Laundry.TagLocation
                                     {
                                         var lot = baseStations.FirstOrDefault(f => f.Id.Equals(occupiedLot.BasestationId)).LotNo;                                        
                                         var occupiedCart = tags.FirstOrDefault(f => f.Id.Equals(occupiedLot.TagId)).CartNo;
-                                        Console.WriteLine($"{lot} is occupied with {occupiedCart}. Cannot insert {cart}.");
+                                        _logger.LogInformation($"{lot} is occupied with {occupiedCart}. Cannot insert {cart}.");
                                     }
                                     else
                                     {
@@ -199,7 +198,7 @@ namespace AGV.Laundry.TagLocation
                                             TagId = item.Id,
                                             Status = Enums.TagLocationLogStatus.IN
                                         });
-                                        Console.WriteLine($"{cart} inserted to {masterNode.LotNo}.");
+                                        _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
                                     }
                                 }
                                 else
@@ -210,7 +209,7 @@ namespace AGV.Laundry.TagLocation
                                         TagId = item.Id,
                                         Status = Enums.TagLocationLogStatus.IN
                                     });
-                                    Console.WriteLine($"{cart} inserted to {masterNode.LotNo}.");
+                                    _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
                                 }
                             }                            
                         }                        
@@ -219,19 +218,28 @@ namespace AGV.Laundry.TagLocation
                     else
                     {
                         var lastTagLocationLog = _tagLocationLogRepository.Where(w => w.TagId.Equals(item.Id)).OrderByDescending(o => o.CreationTime).FirstOrDefault();
-                        var lot = baseStations.FirstOrDefault(f => f.Id.Equals(lastTagLocationLog.BasestationId)).LotNo;
-                        var cart = tags.FirstOrDefault(f => f.Id.Equals(item.Id)).CartNo;
                         if(lastTagLocationLog != null)
                         {
-                            if(lastTagLocationLog.Status == Enums.TagLocationLogStatus.IN)
+                            int autoCartExitInSeconds = 60;
+                            var NO_PACKET_WAIT_IN_SECONDS_FOR_AUTO_CART_EXIT = await _configurationRepository.FirstOrDefaultAsync(f => f.Key.Equals(Keys.NO_PACKET_WAIT_IN_SECONDS_FOR_AUTO_CART_EXIT));
+                            if (NO_PACKET_WAIT_IN_SECONDS_FOR_AUTO_CART_EXIT != null) int.TryParse(NO_PACKET_WAIT_IN_SECONDS_FOR_AUTO_CART_EXIT.Value, out autoCartExitInSeconds);
+
+
+                            var compareTime = lastTagLocationLog.CreationTime.AddSeconds(-autoCartExitInSeconds);
+                            if(compareTime >= DateTime.Now)
                             {
-                                await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                if (lastTagLocationLog.Status == Enums.TagLocationLogStatus.IN)
                                 {
-                                    BasestationId = lastTagLocationLog.BasestationId,
-                                    TagId = item.Id,
-                                    Status = Enums.TagLocationLogStatus.OUT
-                                });
-                                Console.WriteLine($"{cart} exited from {lot}.");
+                                    var lot = baseStations.FirstOrDefault(f => f.Id.Equals(lastTagLocationLog.BasestationId)).LotNo;
+                                    var cart = tags.FirstOrDefault(f => f.Id.Equals(item.Id)).CartNo;
+                                    await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                    {
+                                        BasestationId = lastTagLocationLog.BasestationId,
+                                        TagId = item.Id,
+                                        Status = Enums.TagLocationLogStatus.OUT
+                                    });
+                                    _logger.LogInformation($"{cart} auto exited from {lot}.");
+                                }
                             }
                         }
                     }

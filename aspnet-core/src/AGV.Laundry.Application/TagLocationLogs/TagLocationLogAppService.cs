@@ -31,7 +31,7 @@ namespace AGV.Laundry.TagLocationLogs
         }
         public async Task<List<TagDto>> GetTags()
         {
-            var tags = await _tagRepository.GetListAsync(w => w.Status);
+            var tags = (await _tagRepository.GetListAsync(w => w.Status)).OrderBy(o => o.CartNo).ToList();
             var dtos = ObjectMapper.Map<List<Tag>, List<TagDto>>(tags);
             return dtos;
         }
