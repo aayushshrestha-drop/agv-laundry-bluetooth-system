@@ -97,7 +97,7 @@ namespace AGV.Laundry.TagLocation
                                 if (lastTagLocationLog.Status == TagLocationLog.TagLocationLogStatus.OUT)
                                 {
                                     var occupiedLot = _tagLocationLogRepository.Where(w => w.BasestationId.Equals(masterNode.Id)).OrderByDescending(o => o.CreationTime).FirstOrDefault();
-                                    var cart = tags.FirstOrDefault(f => f.Id.Equals(item.TagId)).CartNo;
+                                    var cart = tags.FirstOrDefault(f => f.Id.Equals(item.Id)).CartNo;
                                     if (occupiedLot != null)
                                     {
                                         if (occupiedLot.Status == TagLocationLog.TagLocationLogStatus.IN)
