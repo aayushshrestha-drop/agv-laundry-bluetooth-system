@@ -27,7 +27,6 @@ namespace AGV.Laundry.TagLocation
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private readonly IConfiguration _configuration;
         private readonly ILogger<TagLocationHostedService> _logger;
-        HubConnection connection;
         public TagLocationHostedService(IHostApplicationLifetime hostApplicationLifetime, IConfiguration configuration, ILogger<TagLocationHostedService> logger)
         {
             _hostApplicationLifetime = hostApplicationLifetime;
@@ -78,7 +77,7 @@ namespace AGV.Laundry.TagLocation
                 var time = DateTime.Now.AddSeconds(packetIntervalForMasterNodeWindowInSeconds);
 
                 var allTagsRssi = _tagRssiRepository.Where(w => 
-                //w.CreationTime >= time && 
+                w.CreationTime >= time && 
                 bsAddresses.Contains(w.BaseStationIP) && tagIds.Contains(w.TagId));
                 foreach (var item in tags)
                 {
