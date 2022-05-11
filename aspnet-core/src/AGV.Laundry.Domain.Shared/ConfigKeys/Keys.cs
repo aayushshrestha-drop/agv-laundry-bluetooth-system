@@ -8,5 +8,6 @@ namespace AGV.Laundry.ConfigKeys
     {
         public static string PACKET_INTERVAL_FOR_MASTER_NODE_WINDOW_IN_SECONDS = "PACKET_INTERVAL_FOR_MASTER_NODE_WINDOW_IN_SECONDS";
         public static string API_URL = "API_URL";
+        public static string IN_RSSI_THRESHOLD = "IN_RSSI_THRESHOLD";
     }
 }

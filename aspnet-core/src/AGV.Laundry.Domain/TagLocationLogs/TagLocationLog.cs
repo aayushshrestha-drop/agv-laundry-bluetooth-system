@@ -10,14 +10,14 @@ namespace AGV.Laundry.TagLocationLogs
 {
     public class TagLocationLog : FullAuditedAggregateRoot<Guid>
     {
-        public virtual Guid BSIP { get; set; }
+        public virtual Guid BasestationId { get; set; }
         public virtual Guid TagId { get; set; }
         public virtual TagLocationLogStatus Status { get; set; }
 
         public TagLocationLog() { }
-        public TagLocationLog(Guid id, Guid bsIp, Guid tagId, TagLocationLogStatus status) : base(id)
+        public TagLocationLog(Guid id, Guid basestationId, Guid tagId, TagLocationLogStatus status) : base(id)
         {
-            BSIP = bsIp;
+            BasestationId = basestationId;
             TagId = tagId;
             Status = status;
         }
