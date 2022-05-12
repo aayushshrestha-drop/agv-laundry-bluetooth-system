@@ -14,7 +14,10 @@ using AGV.Laundry.Tags;
 using Newtonsoft.Json;
 using System.Linq;
 using AGV.Laundry.BaseStations;
-using AGV.Laundry.TagRssis;
+using AGV.Laundry.TagLocationLogs;
+using AGV.Laundry.Configurations;
+using AGV.Laundry.ConfigKeys;
+using AGV.Laundry.TagLocationHttps;
 
 namespace AGV.Laundry.TagLocation.HttpClient
 {
@@ -44,10 +47,13 @@ namespace AGV.Laundry.TagLocation.HttpClient
                 var _baseStationRepository = application
                     .ServiceProvider
                     .GetRequiredService<IRepository<BaseStation>>();
-                var _tagRssiRepository = application
+                var _tagLocationLogRepository = application
                     .ServiceProvider
-                    .GetRequiredService<IRepository<TagRssi>>();
-
+                    .GetRequiredService<IRepository<TagLocationLog>>();
+                var _configurationRepository = application
+                    .ServiceProvider
+                    .GetRequiredService<IRepository<Configuration>>();
+                var API_URL = await _configurationRepository.FirstOrDefaultAsync(f => f.Key.Equals(Keys.API_URL));
                 await Task.Factory.StartNew(() => {
                     var factory = new ConnectionFactory()
                     {
@@ -63,7 +69,25 @@ namespace AGV.Laundry.TagLocation.HttpClient
                         consumer.Received += (model, ea) => {
                             var body = ea.Body.ToArray();
                             var message = Encoding.UTF8.GetString(body);
-                            Console.WriteLine(message);
+                            Guid tagLocationLogId = Guid.Empty;
+                            Guid.TryParse(message, out tagLocationLogId);
+                            if(tagLocationLogId != Guid.Empty)
+                            {
+                                var tagLocationLog = _tagLocationLogRepository.FirstOrDefault(f => f.Id.Equals(tagLocationLogId));
+                                if(tagLocationLog != null)
+                                {
+                                    
+                                    var cart = _tagRepository.FirstOrDefault(f => f.Id.Equals(tagLocationLog.TagId));
+                                    var baseStation = _baseStationRepository.FirstOrDefault(f => f.Id.Equals(tagLocationLog.BasestationId));
+                                    var requestBody = new TagLocationHttpDto();
+                                    requestBody.cartId = cart.TagId;
+                                    requestBody.cartNo = cart.CartNo;
+                                    requestBody.lotNo = baseStation.LotNo;
+                                    requestBody.state = ((Enums.TagLocationLogStatus)tagLocationLog.Status).ToString();
+                                    Console.WriteLine($"URL: {API_URL}");
+                                    Console.WriteLine($"PAYLOAD: {JsonConvert.SerializeObject(requestBody)}");
+                                }
+                            }
                         };
                         channel.BasicConsume(queue: _configuration["RabbitMQ:QUEUE"],
                                              autoAck: true,
