@@ -275,7 +275,7 @@ namespace AGV.Laundry.TagLocation
                             properties.Persistent = false;
                             foreach(var item in tagLocationLogIds)
                             {
-                                byte[] messagebuffer = Encoding.Default.GetBytes(item.ToString());
+                                byte[] messagebuffer = Encoding.UTF8.GetBytes(item.ToString());
                                 channel.BasicPublish(_configuration["RabbitMQ:EXCHANGE"], "", properties, messagebuffer);
                             }
                         }
