@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGV.Laundry.TagLocation", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGV.Laundry.MqClient", "src\AGV.Laundry.MqClient\AGV.Laundry.MqClient.csproj", "{C3899B88-ECD1-4228-A376-9D1564A0E8A4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGV.Laundry.TagLocation.HttpClient", "src\AGV.Laundry.TagLocation.HttpClient\AGV.Laundry.TagLocation.HttpClient.csproj", "{925162A3-5E32-4ACD-8B0D-796772F9DC74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{C3899B88-ECD1-4228-A376-9D1564A0E8A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3899B88-ECD1-4228-A376-9D1564A0E8A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3899B88-ECD1-4228-A376-9D1564A0E8A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{925162A3-5E32-4ACD-8B0D-796772F9DC74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{925162A3-5E32-4ACD-8B0D-796772F9DC74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{925162A3-5E32-4ACD-8B0D-796772F9DC74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{925162A3-5E32-4ACD-8B0D-796772F9DC74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +101,7 @@ Global
 		{C88F6872-6384-4E0F-9CF6-8EA2F20B057E} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{9730CE9E-FFEA-4982-BEE3-F80BD2A27740} = {8E6C4177-9F46-4C2A-B1E1-0079437B95D4}
 		{C3899B88-ECD1-4228-A376-9D1564A0E8A4} = {8E6C4177-9F46-4C2A-B1E1-0079437B95D4}
+		{925162A3-5E32-4ACD-8B0D-796772F9DC74} = {8E6C4177-9F46-4C2A-B1E1-0079437B95D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

@@ -3,14 +3,14 @@ using Volo.Abp.Autofac;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Modularity;
 
-namespace AGV.Laundry.MqClient
+namespace AGV.Laundry.TagLocation.HttpClient
 {
     [DependsOn(
         typeof(AbpAutofacModule),
         typeof(AGVLaundryMongoDbModule),
         typeof(AGVLaundryApplicationContractsModule)
         )]
-    public class AGVLaundryMqClientModule : AbpModule
+    public class AGVLaundryTagLocationHttpClientModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {

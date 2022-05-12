@@ -16,14 +16,14 @@ using System.Linq;
 using AGV.Laundry.BaseStations;
 using AGV.Laundry.TagRssis;
 
-namespace AGV.Laundry.MqClient
+namespace AGV.Laundry.TagLocation.HttpClient
 {
-    public class MqClientHostedService : IHostedService
+    public class TagLocationHttpClientHostedService : IHostedService
     {
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private readonly IConfiguration _configuration;
 
-        public MqClientHostedService(IHostApplicationLifetime hostApplicationLifetime, IConfiguration configuration)
+        public TagLocationHttpClientHostedService(IHostApplicationLifetime hostApplicationLifetime, IConfiguration configuration)
         {
             _hostApplicationLifetime = hostApplicationLifetime;
             _configuration = configuration;
@@ -31,7 +31,7 @@ namespace AGV.Laundry.MqClient
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using (var application = AbpApplicationFactory.Create<AGVLaundryMqClientModule>(options => {
+            using (var application = AbpApplicationFactory.Create<AGVLaundryTagLocationHttpClientModule>(options => {
                 options.Services.ReplaceConfiguration(_configuration);
                 options.UseAutofac();
                 options.Services.AddLogging(c => c.AddSerilog());
@@ -63,21 +63,7 @@ namespace AGV.Laundry.MqClient
                         consumer.Received += (model, ea) => {
                             var body = ea.Body.ToArray();
                             var message = Encoding.UTF8.GetString(body);
-                            var data = JsonConvert.DeserializeObject<DTO>(message);
-                            var isValidTag = _tagRepository.Where(w => w.Status).Any(w => w.TagId.Equals(data.tagAddress));
-                            var isValidBasestation = _baseStationRepository.Where(w => w.Status).Any(w => w.BSIP.Equals(data.address));
-                            if (isValidTag && isValidBasestation)
-                            {
-                                Console.WriteLine("{0} {1} {2}", data.address, data.tagAddress, data.rssi);
-                                //insert here
-                                _tagRssiRepository.InsertAsync(new TagRssi()
-                                {
-                                    BaseStationIP = data.address,
-                                    TagId = data.tagAddress,
-                                    Rssi = data.rssi,
-                                    Battery = data.batt
-                                });
-                            }
+                            Console.WriteLine(body);
                         };
                         channel.BasicConsume(queue: _configuration["RabbitMQ:QUEUE"],
                                              autoAck: true,
