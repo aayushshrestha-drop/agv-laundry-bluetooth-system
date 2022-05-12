@@ -63,7 +63,7 @@ namespace AGV.Laundry.TagLocation.HttpClient
                         consumer.Received += (model, ea) => {
                             var body = ea.Body.ToArray();
                             var message = Encoding.UTF8.GetString(body);
-                            Console.WriteLine(body);
+                            Console.WriteLine(message);
                         };
                         channel.BasicConsume(queue: _configuration["RabbitMQ:QUEUE"],
                                              autoAck: true,
