@@ -224,7 +224,28 @@ namespace AGV.Laundry.TagLocation
                                     tagLocationLogIds.Add(created.Id);
                                 }
                             }                            
-                        }                        
+                        }
+                        else
+                        {
+                            var lastTagLocationLog = _tagLocationLogRepository.Where(w => w.TagId.Equals(item.Id)).OrderByDescending(o => o.CreationTime).FirstOrDefault();
+                            if (lastTagLocationLog != null)
+                            {
+                                if (lastTagLocationLog.Status == Enums.TagLocationLogStatus.IN)
+                                {
+                                    var lot = baseStations.FirstOrDefault(f => f.Id.Equals(lastTagLocationLog.BasestationId)).LotNo;
+                                    var cart = tags.FirstOrDefault(f => f.Id.Equals(item.Id)).CartNo;
+                                    //STATE OUT from last basestation
+                                    var created = await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                    {
+                                        BasestationId = lastTagLocationLog.BasestationId,
+                                        TagId = item.Id,
+                                        Status = Enums.TagLocationLogStatus.OUT
+                                    });
+                                    _logger.LogInformation($"{cart} exited from {lot}.");
+                                    tagLocationLogIds.Add(created.Id);
+                                }
+                            }
+                        }
                     }
 
                     else

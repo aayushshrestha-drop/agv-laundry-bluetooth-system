@@ -84,7 +84,7 @@ namespace AGV.Laundry.TagLocation.HttpClient
                                     requestBody.cartNo = cart.CartNo;
                                     requestBody.lotNo = baseStation.LotNo;
                                     requestBody.state = ((Enums.TagLocationLogStatus)tagLocationLog.Status).ToString();
-                                    Console.WriteLine($"URL: {API_URL}");
+                                    Console.WriteLine($"URL: {API_URL.Value}");
                                     Console.WriteLine($"PAYLOAD: {JsonConvert.SerializeObject(requestBody)}");
                                 }
                             }
