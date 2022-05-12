@@ -19,6 +19,8 @@ using AGV.Laundry.TagRssis;
 using AGV.Laundry.Configurations;
 using AGV.Laundry.BaseStations;
 using AGV.Laundry.TagLocationLogs;
+using RabbitMQ.Client;
+using System.Text;
 
 namespace AGV.Laundry.TagLocation
 {
@@ -79,6 +81,9 @@ namespace AGV.Laundry.TagLocation
                 var allTagsRssi = _tagRssiRepository.Where(w => 
                 w.CreationTime >= time && 
                 bsAddresses.Contains(w.BaseStationIP) && tagIds.Contains(w.TagId));
+
+                List<Guid> tagLocationLogIds = new List<Guid>();
+
                 foreach (var item in tags)
                 {
                     var tagRssis = allTagsRssi.Where(w => w.TagId.Equals(item.TagId));
@@ -108,24 +113,26 @@ namespace AGV.Laundry.TagLocation
                                         }
                                         else
                                         {
-                                            await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                            var created = await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
                                             {
                                                 BasestationId = masterNode.Id,
                                                 TagId = item.Id,
                                                 Status = Enums.TagLocationLogStatus.IN
                                             });
                                             _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
+                                            tagLocationLogIds.Add(created.Id);
                                         }
                                     }
                                     else
                                     {
-                                        await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                        var created = await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
                                         {
                                             BasestationId = masterNode.Id,
                                             TagId = item.Id,
                                             Status = Enums.TagLocationLogStatus.IN
                                         });
                                         _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
+                                        tagLocationLogIds.Add(created.Id);
                                     }
                                 }
                                 // if last log exists and STATE is IN but for different basaestation, do STATE OUT from last basestation and STATE IN for new basestation
@@ -135,13 +142,14 @@ namespace AGV.Laundry.TagLocation
                                     var lot = baseStations.FirstOrDefault(f => f.Id.Equals(lastTagLocationLog.BasestationId)).LotNo;
                                     var cart = tags.FirstOrDefault(f => f.Id.Equals(item.Id)).CartNo;
                                     //STATE OUT from last basestation
-                                    await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                    var created = await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
                                     {
                                         BasestationId = lastTagLocationLog.BasestationId,
                                         TagId = item.Id,
                                         Status = Enums.TagLocationLogStatus.OUT
                                     });
                                     _logger.LogInformation($"{cart} exited from {lot}.");
+                                    tagLocationLogIds.Add(created.Id);
                                     //check if lot is occupied & STATE IN from new basestation
                                     var occupiedLot = _tagLocationLogRepository.Where(w => w.BasestationId.Equals(masterNode.Id)).OrderByDescending(o => o.CreationTime).FirstOrDefault();
                                     if(occupiedLot != null)
@@ -153,24 +161,26 @@ namespace AGV.Laundry.TagLocation
                                         }
                                         else
                                         {
-                                            await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                            created = await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
                                             {
                                                 BasestationId = masterNode.Id,
                                                 TagId = item.Id,
                                                 Status = Enums.TagLocationLogStatus.IN
                                             });
                                             _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
+                                            tagLocationLogIds.Add(created.Id);
                                         }
                                     }
                                     else
                                     {
-                                        await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                        created = await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
                                         {
                                             BasestationId = masterNode.Id,
                                             TagId = item.Id,
                                             Status = Enums.TagLocationLogStatus.IN
                                         });
                                         _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
+                                        tagLocationLogIds.Add(created.Id);
                                     }
                                 }
                             }
@@ -192,24 +202,26 @@ namespace AGV.Laundry.TagLocation
                                     }
                                     else
                                     {
-                                        await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                        var created = await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
                                         {
                                             BasestationId = masterNode.Id,
                                             TagId = item.Id,
                                             Status = Enums.TagLocationLogStatus.IN
                                         });
                                         _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
+                                        tagLocationLogIds.Add(created.Id);
                                     }
                                 }
                                 else
                                 {
-                                    await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                    var created = await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
                                     {
                                         BasestationId = masterNode.Id,
                                         TagId = item.Id,
                                         Status = Enums.TagLocationLogStatus.IN
                                     });
                                     _logger.LogInformation($"{cart} inserted to {masterNode.LotNo}.");
+                                    tagLocationLogIds.Add(created.Id);
                                 }
                             }                            
                         }                        
@@ -232,17 +244,42 @@ namespace AGV.Laundry.TagLocation
                                 {
                                     var lot = baseStations.FirstOrDefault(f => f.Id.Equals(lastTagLocationLog.BasestationId)).LotNo;
                                     var cart = tags.FirstOrDefault(f => f.Id.Equals(item.Id)).CartNo;
-                                    await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
+                                    var created = await _tagLocationLogRepository.InsertAsync(new TagLocationLog()
                                     {
                                         BasestationId = lastTagLocationLog.BasestationId,
                                         TagId = item.Id,
                                         Status = Enums.TagLocationLogStatus.OUT
                                     });
                                     _logger.LogInformation($"{cart} auto exited from {lot}.");
+                                    tagLocationLogIds.Add(created.Id);
                                 }
                             }
                         }
                     }
+                }
+
+                if (tagLocationLogIds.Any())
+                {
+                    await Task.Factory.StartNew(() => {
+                        var factory = new ConnectionFactory()
+                        {
+                            HostName = _configuration["RabbitMQ:HostName"],
+                            Port = _configuration.GetValue<int>("RabbitMQ:Port"),
+                            UserName = _configuration["RabbitMQ:UserName"],
+                            Password = _configuration["RabbitMQ:Password"]
+                        };
+                        using (var connection = factory.CreateConnection())
+                        using (var channel = connection.CreateModel())
+                        {
+                            var properties = channel.CreateBasicProperties();
+                            properties.Persistent = false;
+                            foreach(var item in tagLocationLogIds)
+                            {
+                                byte[] messagebuffer = Encoding.Default.GetBytes(item.ToString());
+                                channel.BasicPublish(_configuration["RabbitMQ:EXCHANGE"], "", properties, messagebuffer);
+                            }
+                        }
+                    });
                 }
                 application.Shutdown();
                 _hostApplicationLifetime.StopApplication();
@@ -250,9 +287,5 @@ namespace AGV.Laundry.TagLocation
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
-    }
-    public class TokenReponseModel
-    {
-        public string access_token { get; set; }
     }
 }
