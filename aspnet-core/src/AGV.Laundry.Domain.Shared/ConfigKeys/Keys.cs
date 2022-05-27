@@ -10,5 +10,6 @@ namespace AGV.Laundry.ConfigKeys
         public static string API_URL = "API_URL";
         public static string IN_RSSI_THRESHOLD = "IN_RSSI_THRESHOLD";
         public static string NO_PACKET_WAIT_IN_SECONDS_FOR_AUTO_CART_EXIT = "NO_PACKET_WAIT_IN_SECONDS_FOR_AUTO_CART_EXIT";
+        public static string TAG_BATTERY_LEVEL_THRESHOLD = "TAG_BATTERY_LEVEL_THRESHOLD";
     }
 }
