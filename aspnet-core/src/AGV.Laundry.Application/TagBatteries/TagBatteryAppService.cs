@@ -34,13 +34,12 @@ namespace AGV.Laundry.TagBatteries
                 if (tagRssis.Any())
                 {
                     var tagRssi = tagRssis.FirstOrDefault();
-                    int TAG_BATTERY_LEVEL_THRESHOLD = 2;
+                    float TAG_BATTERY_LEVEL_THRESHOLD = 2.0F;
                     var configuration = await _configurationRepository.FirstOrDefaultAsync(f => f.Key.Equals(ConfigKeys.Keys.TAG_BATTERY_LEVEL_THRESHOLD));
-                    if(configuration is not null) int.TryParse(configuration.Value, out TAG_BATTERY_LEVEL_THRESHOLD);
-                    var currentBatteryLevel = Convert.ToInt32(tagRssi.Battery);
+                    if(configuration is not null) float.TryParse(configuration.Value, out TAG_BATTERY_LEVEL_THRESHOLD);
                     return new TagBatteryDto()
                     {
-                        BattStatus = currentBatteryLevel >= TAG_BATTERY_LEVEL_THRESHOLD ? 1 : 0,
+                        BattStatus = tagRssi.Battery >= TAG_BATTERY_LEVEL_THRESHOLD ? 1 : 0,
                         CartId = cartId
                     };
                 }
