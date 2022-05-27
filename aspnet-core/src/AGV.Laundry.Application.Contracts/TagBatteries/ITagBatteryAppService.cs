@@ -9,6 +9,6 @@ namespace AGV.Laundry.TagBatteries
 {
     public interface ITagBatteryAppService
     {
-        Task<TagBatteryDto> TagBattery(string cartId);
+        Task<TagBatteryDto> TagBattery(TagBatteryRequestDto model);
     }
 }
