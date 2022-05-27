@@ -14,6 +14,11 @@ namespace AGV.Laundry.TagLocationLogs
         public virtual Guid BasestationId { get; set; }
         public virtual Guid TagId { get; set; }
         public virtual TagLocationLogStatus Status { get; set; }
+        public string Url { get; set; }
+        public string RequestPayload { get; set; }
+        public string ResponsePayload { get; set; }
+        public int? ResponseStatus { get; set; }
+        public bool IsAcknowledged { get; set; } = false;
 
         public TagLocationLog() { }
         public TagLocationLog(Guid id, Guid basestationId, Guid tagId, TagLocationLogStatus status) : base(id)

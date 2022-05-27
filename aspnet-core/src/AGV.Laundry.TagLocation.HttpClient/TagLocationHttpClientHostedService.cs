@@ -18,6 +18,7 @@ using AGV.Laundry.TagLocationLogs;
 using AGV.Laundry.Configurations;
 using AGV.Laundry.ConfigKeys;
 using AGV.Laundry.TagLocationHttps;
+using System.Net.Http;
 
 namespace AGV.Laundry.TagLocation.HttpClient
 {
@@ -71,21 +72,60 @@ namespace AGV.Laundry.TagLocation.HttpClient
                             var message = Encoding.UTF8.GetString(body);
                             Guid tagLocationLogId = Guid.Empty;
                             Guid.TryParse(message, out tagLocationLogId);
-                            if(tagLocationLogId != Guid.Empty)
+                            if (tagLocationLogId != Guid.Empty)
                             {
                                 var tagLocationLog = _tagLocationLogRepository.FirstOrDefault(f => f.Id.Equals(tagLocationLogId));
-                                if(tagLocationLog != null)
+                                if (tagLocationLog != null)
                                 {
-                                    
+
                                     var cart = _tagRepository.FirstOrDefault(f => f.Id.Equals(tagLocationLog.TagId));
                                     var baseStation = _baseStationRepository.FirstOrDefault(f => f.Id.Equals(tagLocationLog.BasestationId));
-                                    var requestBody = new TagLocationHttpDto();
-                                    requestBody.cartId = cart.TagId;
-                                    requestBody.cartNo = cart.CartNo;
-                                    requestBody.lotNo = baseStation.LotNo;
-                                    requestBody.state = ((Enums.TagLocationLogStatus)tagLocationLog.Status).ToString();
+                                    var requestModel = new TagLocationHttpRequestDto();
+                                    requestModel.cartId = cart.TagId;
+                                    requestModel.cartNo = cart.CartNo;
+                                    requestModel.lotNo = baseStation.LotNo;
+                                    requestModel.state = ((Enums.TagLocationLogStatus)tagLocationLog.Status).ToString();
+
+                                    var requestPayload = JsonConvert.SerializeObject(requestModel);
                                     Console.WriteLine($"URL: {API_URL.Value}");
-                                    Console.WriteLine($"PAYLOAD: {JsonConvert.SerializeObject(requestBody)}");
+                                    Console.WriteLine($"REQUEST PAYLOAD: {requestPayload}");
+                                    tagLocationLog.RequestPayload = requestPayload;
+                                    try
+                                    {
+                                        using (var httpClientHandler = new HttpClientHandler())
+                                        {
+                                            using (System.Net.Http.HttpClient client = new System.Net.Http.HttpClient(httpClientHandler))
+                                            {
+                                                client.BaseAddress = new Uri(API_URL.Value);
+                                                client.DefaultRequestHeaders.Accept.Clear();
+                                                var stringContent = new StringContent(requestPayload, Encoding.UTF8, "application/json");
+                                                //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                var response = client.PostAsync(API_URL.Value, stringContent).Result;
+                                                if (response.IsSuccessStatusCode)
+                                                {
+                                                    var content = response.Content.ReadAsStringAsync();
+                                                    tagLocationLog.ResponsePayload = content.Result.ToString();
+                                                    tagLocationLog.ResponseStatus = (int)response.StatusCode;
+                                                    tagLocationLog.IsAcknowledged = response.IsSuccessStatusCode;
+                                                }
+                                                else
+                                                {
+                                                    var content = response.Content.ReadAsStringAsync();
+                                                    tagLocationLog.ResponsePayload = content.Result.ToString();
+                                                    tagLocationLog.ResponseStatus = (int)response.StatusCode;
+                                                    tagLocationLog.IsAcknowledged = response.IsSuccessStatusCode;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    catch
+                                    {
+                                        tagLocationLog.IsAcknowledged = false;
+                                    }
+                                    finally
+                                    {
+                                        _tagLocationLogRepository.UpdateAsync(tagLocationLog);
+                                    }
                                 }
                             }
                         };
@@ -100,7 +140,6 @@ namespace AGV.Laundry.TagLocation.HttpClient
                 _hostApplicationLifetime.StopApplication();
             }
         }
-
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
     }
     public class DTO
