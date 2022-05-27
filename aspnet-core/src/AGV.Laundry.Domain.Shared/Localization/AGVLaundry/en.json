@@ -17,6 +17,10 @@
     "BSIP": "Basestation IP",
     "Hotel": "Hotel",
     "LotNo": "Lot No.",
-    "Timestamp": "Timestamp"
+    "Timestamp": "Timestamp",
+    "IsAcknowledged": "Acked",
+    "RequestPayload": "Req Pay",
+    "ResponsePayload": "Res Pay",
+    "ResponseStatus": "Res Status"
   }
 }

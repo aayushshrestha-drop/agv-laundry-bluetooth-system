@@ -11,4 +11,9 @@ export interface TagLocationLogDto {
   status: TagLocationLogStatus;
   statusString?: string;
   creationTime?: string;
+  url?: string;
+  requestPayload?: string;
+  responsePayload?: string;
+  responseStatus?: number;
+  isAcknowledged: boolean;
 }

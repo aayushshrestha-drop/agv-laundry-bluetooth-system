@@ -55,7 +55,12 @@ namespace AGV.Laundry.TagLocationLogs
                                Cart = t.CartNo,
                                CreationTime = tll.CreationTime,
                                Status = (Enums.TagLocationLogStatus)tll.Status,
-                               StatusString = ((Enums.TagLocationLogStatus)tll.Status).ToString()
+                               StatusString = ((Enums.TagLocationLogStatus)tll.Status).ToString(),
+                               IsAcknowledged = tll.IsAcknowledged,
+                               Url = tll.Url,
+                               RequestPayload = tll.RequestPayload,
+                               ResponsePayload = tll.ResponsePayload,
+                               ResponseStatus = tll.ResponseStatus
                            }).OrderByDescending(o => o.CreationTime).Take(10).ToList();
             return records;
         }

@@ -24,10 +24,12 @@
           <th scope="col">{{ '::BSIP' | abpLocalization}}</th>
           <th scope="col">{{ '::Hotel' | abpLocalization}}</th>
           <th scope="col">{{ '::LotNo' | abpLocalization}}</th>
-          <!-- <th scope="col">{{ '::TagId' | abpLocalization}}</th>
-          <th scope="col">{{ '::CartNo' | abpLocalization}}</th> -->
           <th scope="col">{{ '::Status' | abpLocalization}}</th>
           <th scope="col">{{ '::Timestamp' | abpLocalization}}</th>
+          <th scope="col">{{ '::IsAcknowledged' | abpLocalization}}</th>
+          <th scope="col">{{ '::RequestPayload' | abpLocalization}}</th>
+          <th scope="col">{{ '::ResponsePayload' | abpLocalization}}</th>
+          <th scope="col">{{ '::ResponseStatus' | abpLocalization}}</th>
         </tr>
       </thead>
       <tbody>
@@ -43,6 +45,10 @@
           <td>{{log.cart}}</td> -->
           <td>{{log.statusString}}</td>
           <td>{{log.creationTime | date: 'medium'}}</td>
+          <td>{{log.isAcknowledged}}</td>
+          <td>{{log.requestPayload}}</td>
+          <td>{{log.responsePayload}}</td>
+          <td>{{log.responseStatus}}</td>
         </tr>
       </tbody>
     </table>
