@@ -16,5 +16,16 @@ namespace AGV.Laundry.Controllers
         {
             return Redirect("~/swagger");
         }
+        public async Task<ActionResult> AGVLaundry([FromBody]AGVPostDto model)
+        {
+            return Json(new { success = true });
+        }
+
+        public class AGVPostDto
+        {
+            public string cartNo { get; set; }
+            public string lotNo { get; set; }
+            public string state { get; set; }
+        }
     }
 }
