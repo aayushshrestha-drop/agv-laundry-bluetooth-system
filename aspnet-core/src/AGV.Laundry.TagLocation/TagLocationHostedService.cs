@@ -304,49 +304,50 @@ namespace AGV.Laundry.TagLocation
                     });
                 }
 
-
-                var pendings = _tagLocationLogRepository.Where(w => !w.IsAcknowledged).OrderBy(o => o.CreationTime).ToList();
-                var updatables = new List<TagLocationLog>();
-                if (pendings.Any())
-                {
-                    var API_URL = await _configurationRepository.FirstOrDefaultAsync(f => f.Key.Equals(Keys.API_URL));
-                    using (var httpClientHandler = new HttpClientHandler())
-                    {
-                        using (System.Net.Http.HttpClient client = new System.Net.Http.HttpClient(httpClientHandler))
-                        {
-                            client.BaseAddress = new Uri(API_URL.Value);
-                            client.DefaultRequestHeaders.Accept.Clear();
-                            foreach (var item in pendings)
-                            {
-                                var requestPayload = JsonConvert.SerializeObject(item.RequestPayload);
-                                var stringContent = new StringContent(requestPayload, Encoding.UTF8, "application/json");
-                                try
-                                {
-                                    var response = client.PostAsync(API_URL.Value, stringContent).Result;
-                                    if (response.IsSuccessStatusCode)
-                                    {
-                                        var content = response.Content.ReadAsStringAsync();
-                                        item.ResponsePayload = content.Result.ToString();
-                                        item.ResponseStatus = (int)response.StatusCode;
-                                        item.IsAcknowledged = response.IsSuccessStatusCode;
-                                        updatables.Add(item);
-                                        Console.WriteLine($"RESPONSE PAYLOAD: {content.Result.ToString()}");
-                                    }
-                                }
-                                catch
-                                {
-                                    continue;
-                                }
+                #region
+                //var pendings = _tagLocationLogRepository.Where(w => !w.IsAcknowledged).OrderBy(o => o.CreationTime).ToList();
+                //var updatables = new List<TagLocationLog>();
+                //if (pendings.Any())
+                //{
+                //    var API_URL = await _configurationRepository.FirstOrDefaultAsync(f => f.Key.Equals(Keys.API_URL));
+                //    using (var httpClientHandler = new HttpClientHandler())
+                //    {
+                //        using (System.Net.Http.HttpClient client = new System.Net.Http.HttpClient(httpClientHandler))
+                //        {
+                //            client.BaseAddress = new Uri(API_URL.Value);
+                //            client.DefaultRequestHeaders.Accept.Clear();
+                //            foreach (var item in pendings)
+                //            {
+                //                var requestPayload = JsonConvert.SerializeObject(item.RequestPayload);
+                //                var stringContent = new StringContent(requestPayload, Encoding.UTF8, "application/json");
+                //                try
+                //                {
+                //                    var response = client.PostAsync(API_URL.Value, stringContent).Result;
+                //                    if (response.IsSuccessStatusCode)
+                //                    {
+                //                        var content = response.Content.ReadAsStringAsync();
+                //                        item.ResponsePayload = content.Result.ToString();
+                //                        item.ResponseStatus = (int)response.StatusCode;
+                //                        item.IsAcknowledged = response.IsSuccessStatusCode;
+                //                        updatables.Add(item);
+                //                        Console.WriteLine($"RESPONSE PAYLOAD: {content.Result.ToString()}");
+                //                    }
+                //                }
+                //                catch
+                //                {
+                //                    continue;
+                //                }
                                 
-                            }
-                        }
-                    }
+                //            }
+                //        }
+                //    }
                     
-                }
-                if (updatables.Any())
-                {
-                    await _tagLocationLogRepository.UpdateManyAsync(updatables);
-                }
+                //}
+                //if (updatables.Any())
+                //{
+                //    await _tagLocationLogRepository.UpdateManyAsync(updatables);
+                //}
+                #endregion
                 application.Shutdown();
                 _hostApplicationLifetime.StopApplication();
             }
