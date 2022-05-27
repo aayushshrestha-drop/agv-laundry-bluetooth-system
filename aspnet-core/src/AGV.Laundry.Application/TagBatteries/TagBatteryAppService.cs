@@ -30,6 +30,10 @@ namespace AGV.Laundry.TagBatteries
         [AllowAnonymous]
         public async Task<TagBatteryDto> TagBattery([FromBody]TagBatteryRequestDto model)
         {
+            if(model == null)
+            {
+                return new TagBatteryDto();
+            }
             if (!string.IsNullOrEmpty(model.cartId))
             {
                 var tag = await _tagRepository.FirstOrDefaultAsync(f => f.CartNo.Equals(model.cartId));
