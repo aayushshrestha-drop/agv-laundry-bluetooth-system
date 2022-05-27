@@ -101,12 +101,14 @@ namespace AGV.Laundry.TagLocation.HttpClient
                                                 var stringContent = new StringContent(requestPayload, Encoding.UTF8, "application/json");
                                                 //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                                                 var response = client.PostAsync(API_URL.Value, stringContent).Result;
+                                                Console.WriteLine($"Is Success Status Code: {response.IsSuccessStatusCode}");
                                                 if (response.IsSuccessStatusCode)
                                                 {
                                                     var content = response.Content.ReadAsStringAsync();
                                                     tagLocationLog.ResponsePayload = content.Result.ToString();
                                                     tagLocationLog.ResponseStatus = (int)response.StatusCode;
                                                     tagLocationLog.IsAcknowledged = response.IsSuccessStatusCode;
+                                                    Console.WriteLine($"RESPONSE PAYLOAD: {content.Result.ToString()}");
                                                 }
                                                 else
                                                 {
@@ -114,6 +116,7 @@ namespace AGV.Laundry.TagLocation.HttpClient
                                                     tagLocationLog.ResponsePayload = content.Result.ToString();
                                                     tagLocationLog.ResponseStatus = (int)response.StatusCode;
                                                     tagLocationLog.IsAcknowledged = response.IsSuccessStatusCode;
+                                                    Console.WriteLine($"RESPONSE PAYLOAD: {content.Result.ToString()}");
                                                 }
                                             }
                                         }
@@ -125,6 +128,7 @@ namespace AGV.Laundry.TagLocation.HttpClient
                                     finally
                                     {
                                         _tagLocationLogRepository.UpdateAsync(tagLocationLog);
+                                        Console.WriteLine($"ACKNOWLEDGED: {tagLocationLog.IsAcknowledged}");
                                     }
                                 }
                             }
