@@ -89,6 +89,7 @@ namespace AGV.Laundry.TagLocation.HttpClient
                                     var requestPayload = JsonConvert.SerializeObject(requestModel);
                                     Console.WriteLine($"URL: {API_URL.Value}");
                                     Console.WriteLine($"REQUEST PAYLOAD: {requestPayload}");
+                                    tagLocationLog.Url = API_URL.Value;
                                     tagLocationLog.RequestPayload = requestPayload;
                                     try
                                     {
@@ -121,8 +122,9 @@ namespace AGV.Laundry.TagLocation.HttpClient
                                             }
                                         }
                                     }
-                                    catch
+                                    catch(Exception ex)
                                     {
+                                        Console.WriteLine($"EXCEPTION: {ex.ToString()}");
                                         tagLocationLog.IsAcknowledged = false;
                                     }
                                     finally
