@@ -22,6 +22,7 @@ using AGV.Laundry.TagLocationLogs;
 using RabbitMQ.Client;
 using System.Text;
 using System.Net.Http;
+using AGV.Laundry.TagLocationHttps;
 
 namespace AGV.Laundry.TagLocation.Consolidator
 {
@@ -76,9 +77,10 @@ namespace AGV.Laundry.TagLocation.Consolidator
                                     if (response.IsSuccessStatusCode)
                                     {
                                         var content = response.Content.ReadAsStringAsync();
+                                        var responseDto = JsonConvert.DeserializeObject<TagLocationHttpResponseDto>(content.Result);
                                         item.ResponsePayload = content.Result.ToString();
                                         item.ResponseStatus = (int)response.StatusCode;
-                                        item.IsAcknowledged = response.IsSuccessStatusCode;
+                                        item.IsAcknowledged = responseDto.success;
                                         updatables.Add(item);
                                         Console.WriteLine($"RESPONSE PAYLOAD: {content.Result.ToString()}");
                                     }

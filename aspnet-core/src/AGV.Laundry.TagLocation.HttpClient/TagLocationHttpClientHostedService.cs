@@ -106,17 +106,19 @@ namespace AGV.Laundry.TagLocation.HttpClient
                                                 if (response.IsSuccessStatusCode)
                                                 {
                                                     var content = response.Content.ReadAsStringAsync();
+                                                    var responseDto = JsonConvert.DeserializeObject<TagLocationHttpResponseDto>(content.Result);
                                                     tagLocationLog.ResponsePayload = content.Result.ToString();
                                                     tagLocationLog.ResponseStatus = (int)response.StatusCode;
-                                                    tagLocationLog.IsAcknowledged = response.IsSuccessStatusCode;
+                                                    tagLocationLog.IsAcknowledged = responseDto.success;
                                                     Console.WriteLine($"RESPONSE PAYLOAD: {content.Result.ToString()}");
                                                 }
                                                 else
                                                 {
                                                     var content = response.Content.ReadAsStringAsync();
+                                                    var responseDto = JsonConvert.DeserializeObject<TagLocationHttpResponseDto>(content.Result);
                                                     tagLocationLog.ResponsePayload = content.Result.ToString();
                                                     tagLocationLog.ResponseStatus = (int)response.StatusCode;
-                                                    tagLocationLog.IsAcknowledged = response.IsSuccessStatusCode;
+                                                    tagLocationLog.IsAcknowledged = responseDto.success;
                                                     Console.WriteLine($"RESPONSE PAYLOAD: {content.Result.ToString()}");
                                                 }
                                             }

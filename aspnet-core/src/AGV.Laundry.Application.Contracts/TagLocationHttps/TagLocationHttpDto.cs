@@ -13,5 +13,6 @@ namespace AGV.Laundry.TagLocationHttps
     }
     public class TagLocationHttpResponseDto
     {
+        public bool success { get; set; }
     }
 }
