@@ -1,0 +1,12 @@
+mongodb:
+    image: 'mongo:latest'
+    container_name: 'mongo-db'
+    environment:
+        - PUID=1000
+        - PGID=1000
+        - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+        - MONGO_INITDB_ROOT_PASSWORD=o8uHQQRKEaMrnFT2kZb8
+    volumes:
+        - '/home/dps/docker-volume/mongo-db/db:/data/db'
+        - '/home/dps/docker-volume/mongo-db/configdb:/data/configdb'
+    restart: unless-stopped
