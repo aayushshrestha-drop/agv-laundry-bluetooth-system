@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'https://jen.drop.com';
+const baseUrl = 'http://localhost';
 
 export const environment = {
   production: true,
@@ -10,12 +10,12 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://jen.drop.com',
-    redirectUri: 'https://jen.drop.com/agv',
+    issuer: 'http://localhost',
+    redirectUri: 'http://localhost/agv',
     clientId: 'AGVLaundry_App',
     responseType: 'code',
     scope: 'openid profile AGVLaundry email address phone role',
-    postLogoutRedirectUri: 'https://jen.drop.com/agv'
+    postLogoutRedirectUri: 'http://localhost/agv'
   },
   apis: {
     default: {
