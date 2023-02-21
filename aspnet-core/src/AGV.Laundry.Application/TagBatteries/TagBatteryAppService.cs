@@ -29,7 +29,6 @@ namespace AGV.Laundry.TagBatteries
             _tagRssiRepository = tagRssiRepository;
             _configurationRepository = configurationRepository;
         }
-        [AllowAnonymous]
         public async Task<TagBatteryDto> TagBattery([FromBody] TagBatteryRequestDto model)
         {
             if (model == null)
@@ -60,7 +59,6 @@ namespace AGV.Laundry.TagBatteries
         }
 
 
-        [AllowAnonymous]
         public async Task<TagMasterNodeDto> MasterNode(string tagId)
         {
             var config = await _configurationRepository.FindAsync(w => w.Key.Equals(Keys.PACKET_INTERVAL_FOR_MASTER_NODE_WINDOW_IN_SECONDS));
