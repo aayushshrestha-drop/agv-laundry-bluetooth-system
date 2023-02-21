@@ -248,30 +248,30 @@ namespace AGV.Laundry
             app.UseIdentityServer();
             app.UseAuthorization();
 
-            if (!string.IsNullOrWhiteSpace(pathBase))
-            {
-                app.UseSwagger(swaggerOptions => {
-                    swaggerOptions.PreSerializeFilters.Add((swaggerDoc, httpReq) => {
-                        var paths = new OpenApiPaths();
-                        foreach (var path in swaggerDoc.Paths)
-                        {
-                            paths.Add(pathBase + path.Key, path.Value);
-                        }
-                        swaggerDoc.Paths = paths;
-                    });
-                });
-                app.UseSwaggerUI(options => {
-                    options.SwaggerEndpoint(pathBase + "/swagger/v1/swagger.json", "AGVLaundry API");
+            //if (!string.IsNullOrWhiteSpace(pathBase))
+            //{
+            //    app.UseSwagger(swaggerOptions => {
+            //        swaggerOptions.PreSerializeFilters.Add((swaggerDoc, httpReq) => {
+            //            var paths = new OpenApiPaths();
+            //            foreach (var path in swaggerDoc.Paths)
+            //            {
+            //                paths.Add(pathBase + path.Key, path.Value);
+            //            }
+            //            swaggerDoc.Paths = paths;
+            //        });
+            //    });
+            //    app.UseSwaggerUI(options => {
+            //        options.SwaggerEndpoint(pathBase + "/swagger/v1/swagger.json", "AGVLaundry API");
 
-                    var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-                    options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                    options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-                    options.OAuthScopes("AGVLaundry");
+            //        var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+            //        options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+            //        options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+            //        options.OAuthScopes("AGVLaundry");
 
-                });
-            }
-            else
-            {
+            //    });
+            //}
+            //else
+            //{
                 app.UseSwagger();
                 app.UseSwaggerUI(options => {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "AGVLaundry API");
@@ -281,7 +281,7 @@ namespace AGV.Laundry
                     options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
                     options.OAuthScopes("AGVLaundry");
                 });
-            }
+            //}
 
 
 
