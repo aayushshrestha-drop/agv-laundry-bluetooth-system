@@ -14,10 +14,14 @@ setTimeout(() => {
     });
     server.on('message', function (message, remote) {
         try {
-            const parsed = JSON.parse(message.toString());
+            const parsed = protocol.parseMessage(message, remote);
+            //const parsed = JSON.parse(message.toString());
             if (parsed.tagAddress.startsWith('2034')) {
-                const msg = `${message.toString('hex').length} \n`;
+                //const msg = `${message.toString('hex').length} \n`;
                 console.log(`${parsed.address} ---> ${parsed.tagAddress} | ${parsed.rssi} | ${parsed.batt}`)
+		// send udp data on another port for watchdog
+		server.send(JSON.stringify(parsed), config.UDP_PORT2, config.UDP_HOST, (err) => {
+                });
                 rabbitmq.sendMessage(JSON.stringify(parsed));
             }
         }
@@ -27,5 +31,5 @@ setTimeout(() => {
 
     });
     server.bind(config.UDP_PORT, config.UDP_HOST);
-}, 20000);
+}, 5000);
 
