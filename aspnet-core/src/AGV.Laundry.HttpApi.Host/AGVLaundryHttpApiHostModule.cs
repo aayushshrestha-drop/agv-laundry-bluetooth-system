@@ -214,8 +214,8 @@ namespace AGV.Laundry
             var app = context.GetApplicationBuilder();
             var env = context.GetEnvironment();
             var configuration = context.GetConfiguration();
-            var pathBase = configuration["App:PathBase"];
-            app.UsePathBase(pathBase);
+            //var pathBase = configuration["App:PathBase"];
+            //app.UsePathBase(pathBase);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
