@@ -304,6 +304,12 @@ namespace AGV.Laundry.TagLocation
                     });
                 }
 
+                if (allTagsRssi.Any())
+                {
+                    await _tagRssiRepository.HardDeleteAsync(x => x.CreationTime >= time);
+                    _logger.LogInformation($"Tag Rssi Purged.");
+                }
+                
                 #region
                 //var pendings = _tagLocationLogRepository.Where(w => !w.IsAcknowledged).OrderBy(o => o.CreationTime).ToList();
                 //var updatables = new List<TagLocationLog>();
@@ -337,11 +343,11 @@ namespace AGV.Laundry.TagLocation
                 //                {
                 //                    continue;
                 //                }
-                                
+
                 //            }
                 //        }
                 //    }
-                    
+
                 //}
                 //if (updatables.Any())
                 //{
