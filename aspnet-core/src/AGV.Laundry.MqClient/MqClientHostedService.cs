@@ -80,7 +80,8 @@ namespace AGV.Laundry.MqClient
                             var body = ea.Body.ToArray();
                             var message = Encoding.UTF8.GetString(body);
                             var data = JsonConvert.DeserializeObject<DTO>(message);
-
+                            Console.WriteLine($"{data.address} - {data.tagAddress} - {data.batt}");
+                            _logger.LogInformation($"{data.address} - {data.tagAddress} - {data.batt}");
 
                             var tag = await _tagRepository.FirstOrDefaultAsync(w => w.Status && w.TagId.Equals(data.tagAddress));
 
@@ -135,6 +136,7 @@ namespace AGV.Laundry.MqClient
                                                         Status = Enums.TagLocationLogStatus.OUT
                                                     });
                                                     _logger.LogInformation($"{tag.TagId} exited {basestation.LotNo}. Under threshold");
+                                                    Console.WriteLine($"{tag.TagId} exited {basestation.LotNo}. Under threshold");
                                                     byte[] messagebuffer = Encoding.UTF8.GetBytes(created.Id.ToString());
                                                     channel.BasicPublish(_configuration["RabbitMQ:EXCHANGE"], "", properties, messagebuffer);
                                                 }
@@ -192,6 +194,7 @@ namespace AGV.Laundry.MqClient
                                                         Status = Enums.TagLocationLogStatus.IN
                                                     });
                                                     _logger.LogInformation($"{tag.CartNo} inserted to {basestation.LotNo}.");
+                                                    Console.WriteLine($"{tag.CartNo} inserted to {basestation.LotNo}.");
                                                     byte[] messagebuffer = Encoding.UTF8.GetBytes(created.Id.ToString());
                                                     channel.BasicPublish(_configuration["RabbitMQ:EXCHANGE"], "", properties, messagebuffer);
                                                 }
