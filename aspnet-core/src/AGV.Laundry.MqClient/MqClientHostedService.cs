@@ -33,6 +33,7 @@ namespace AGV.Laundry.MqClient
         {
             _hostApplicationLifetime = hostApplicationLifetime;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
