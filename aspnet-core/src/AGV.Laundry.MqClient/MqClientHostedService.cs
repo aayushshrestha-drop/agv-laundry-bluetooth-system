@@ -81,7 +81,7 @@ namespace AGV.Laundry.MqClient
                             var body = ea.Body.ToArray();
                             var message = Encoding.UTF8.GetString(body);
                             var data = JsonConvert.DeserializeObject<DTO>(message);
-                            Console.WriteLine($"{data.address} - {data.tagAddress} - {data.batt}");
+                            Console.WriteLine($"{data.address} - {data.tagAddress} - {data.rssi} - {data.batt}");
                             _logger.LogInformation($"{data.address} - {data.tagAddress} - {data.batt}");
 
                             var tag = await _tagRepository.FirstOrDefaultAsync(w => w.Status && w.TagId.Equals(data.tagAddress));
