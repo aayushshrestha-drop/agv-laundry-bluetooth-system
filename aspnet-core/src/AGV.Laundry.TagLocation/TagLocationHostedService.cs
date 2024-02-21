@@ -53,12 +53,9 @@ namespace AGV.Laundry.TagLocation
                 int HARD_DELETE_SECONDS = _configuration.GetValue<int>("APP:HARD_DELETE_SECONDS");
 
                 var time = DateTime.Now.AddSeconds(-HARD_DELETE_SECONDS);
-                if (allTagsRssi.Any())
-                {
-                    await _tagRssiRepository.HardDeleteAsync(x => x.CreationTime >= time);
-                    _logger.LogInformation($"Tag Rssi Purged.");
-                }
-                
+                await _tagRssiRepository.HardDeleteAsync(x => x.CreationTime >= time);
+                _logger.LogInformation($"Tag Rssi Purged.");
+
                 #region
                 //var pendings = _tagLocationLogRepository.Where(w => !w.IsAcknowledged).OrderBy(o => o.CreationTime).ToList();
                 //var updatables = new List<TagLocationLog>();
